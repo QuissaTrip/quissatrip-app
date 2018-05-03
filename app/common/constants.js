@@ -1,0 +1,1 @@
+export const OPEN_APP_COUNTER = 'OPEN_APP_COUNTER';
