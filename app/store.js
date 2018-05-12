@@ -12,7 +12,7 @@ import reducers         from '../app/reducers';
 const persistConfig = {
     storage,
     key: 'quissatrip-root',
-    whitelist: ['general'],
+    whitelist: ['general', 'user'],
     stateReconciler: autoMergeLevel2
 }
 
