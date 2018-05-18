@@ -7,7 +7,7 @@ import {
 }                                       from 'react-native';
 import { Actions, ActionConst }         from 'react-native-router-flux';
 import BottomNavigation, { IconTab }    from 'react-native-material-bottom-navigation';
-import Icon                             from 'react-native-vector-icons/SimpleLineIcons';
+import Icon                             from 'react-native-vector-icons/EvilIcons';
 import { connect }                      from 'react-redux';
 import { addCounter }                   from '../actions';
 import { Places, Events, Commerces }    from './PrincipalTabs/';
@@ -35,24 +35,24 @@ class Principal extends Component {
         },
         {
           key: 'places',
-          icon: 'compass',
+          icon: 'location',
           barColor: '#FFF',
           pressColor: 'rgba(0, 0, 0, 0.05)'
         },
         {
           key: 'commerce',
-          icon: 'bag',
+          icon: 'cart',
           barColor: '#FFF',
           pressColor: 'rgba(0, 0, 0, 0.05)'
         }
     ]
 
-    renderTab = ({ tab, isActive }) => (
+    renderTab = ({ tab, isActive }, iconSize=30) => (
         <IconTab
             isActive={(this.state.activeTab.key == tab.key)}
             key={tab.key}
             label={tab.label}
-            renderIcon={ () => <Icon size={24} color="#777777" name={tab.icon} /> }
+            renderIcon={ () => <Icon size={(tab.icon == "location") ? iconSize-3 : iconSize} color="#777777" name={tab.icon} /> }
         />
     )
 
