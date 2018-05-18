@@ -32,7 +32,8 @@ export default class Button extends Component {
     }
 
     buttonWithBorder = (color) => {
-        const { style, onPress, children } = this.props;
+        const { style, onPress, children, insideButton } = this.props;
+
         return (
             <TouchableOpacity onPress={ onPress } style={ style }>
                 <LinearGradient
@@ -40,7 +41,7 @@ export default class Button extends Component {
                     colors={ colors[color] }
                     style={ styles.buttonWithBorder }
                 >
-                    <View style={[ styles.button, { elevation: 0 }]}>
+                    <View style={[ styles.button, insideButton, { elevation: 0, backgroundColor: "#FFF" }]}>
                         { children }
                     </View>
                 </LinearGradient>

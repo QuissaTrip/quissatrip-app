@@ -7,7 +7,11 @@ import {
 }                                   from 'react-native';
 import { connect }                  from 'react-redux';
 import { addCounter }               from '../actions';
-import { WelcomePage, Principal }   from './';
+import {
+    WelcomePage,
+    Principal,
+    Single
+}                                   from './';
 
 class QuissaTrip extends Component {
     constructor(props) {
@@ -18,8 +22,10 @@ class QuissaTrip extends Component {
         return (
             <Router>
                 <Scene key="root">
-                    <Scene key="welcomePage" component={ WelcomePage } hideNavBar={ true }/>
                     <Scene key="principal" component={ Principal } initial={true} hideNavBar={ true }/>
+                    <Scene key="welcomePage" component={ WelcomePage } hideNavBar={ true }/>
+                    <Scene key="single" component={ Single } hideNavBar={ true }/>
+
                     {/*<Scene key="loginPage" component={Login}/>
                     <Scene key="registerPage" component={Register}/>*/}
                 </Scene>
