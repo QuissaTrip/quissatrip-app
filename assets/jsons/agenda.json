@@ -1,0 +1,118 @@
+[
+    [{
+            "date": "04",
+            "month": "Janeiro",
+            "text": "Aniversário de Emancipação Política Administrativa"
+        },
+        {
+            "date": "04",
+            "month": "Janeiro",
+            "text": "Passeio Ciclístico (Guarda)"
+        }
+    ],
+    [{
+            "date": "17",
+            "month": "Fevereiro",
+            "text": "Nossa Senhora do Desterro (Igreja Matriz)"
+        },
+        {
+            "date": "08 - 13",
+            "month": "Fevereiro",
+            "text": "Carnaval"
+        }
+    ],
+    [{
+            "date": "08",
+            "month": "Março",
+            "text": "Dia Internacional da Mulher (Passeio Ciclístico)"
+        },
+        {
+            "date": "08",
+            "month": "Março",
+            "text": "Encontro de Mulheres"
+        },
+        {
+            "date": "19",
+            "month": "Março",
+            "text": "Missa de São José (funcionários)"
+        }
+    ],
+    [{
+            "date": "21",
+            "month": "Abril",
+            "text": "Encontro Regional de Zumba (Bairro Penha)"
+        },
+        {
+            "date": "28",
+            "month": "Abril",
+            "text": "Aniversário do Parque Nacional de Jurubatiba"
+        }
+    ],
+    [{
+            "date": "01",
+            "month": "Maio",
+            "text": "Dia do Trabalhador"
+        },
+        {
+            "date": "13",
+            "month": "Maio",
+            "text": "Festa de Senhora de Fátima"
+        },
+        {
+            "date": "13",
+            "month": "Maio",
+            "text": "Dia das Mães"
+        },
+        {
+            "date": "19",
+            "month": "Maio",
+            "text": "Feijoada da Liberdade"
+        },
+        {
+            "date": "26",
+            "month": "Maio",
+            "text": "Casamento Comunitário"
+        },
+        {
+            "date": "31",
+            "month": "Maio",
+            "text": "Corpus Christi"
+        }
+    ],
+    [{
+            "date": "01 - 02",
+            "month": "Junho",
+            "text": "Copa Open de Futsal Feminino"
+        },
+        {
+            "date": "09",
+            "month": "Junho",
+            "text": "Cowfest Flexeiras"
+        },
+        {
+            "date": "10",
+            "month": "Junho",
+            "text": "Aniversário do Centro Cultural Sobradinho"
+        },
+        {
+            "date": "10",
+            "month": "Junho",
+            "text": "Aniversário do Museu Casa Quissamã"
+        },
+        {
+            "date": "09 - 10",
+            "month": "Junho",
+            "text": "Volta Ciclística"
+        },
+        {
+            "date": "12",
+            "month": "Junho",
+            "text": "Aniversário da Cidade"
+        },
+        {
+            "date": "30",
+            "month": "Junho",
+            "text": "XI Encontro Diocesano do Apostolado de Oração"
+        }
+    ]
+]

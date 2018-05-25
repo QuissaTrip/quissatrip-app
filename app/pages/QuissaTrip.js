@@ -1,47 +1,46 @@
 import React, { Component }                     from 'react';
-import { Scene, Router, Actions, ActionConst }  from 'react-native-router-flux';
+import {
+    Router,
+    Scene,
+    Actions,
+    Modal,
+    ActionConst
+}                   from 'react-native-router-flux';
 import {
     View,
     Text,
     StyleSheet
-}                                   from 'react-native';
-import { connect }                  from 'react-redux';
-import { addCounter }               from '../actions';
-import {
-    WelcomePage,
-    Principal,
-    Single
-}                                   from './';
+}                   from 'react-native';
+import { connect }  from 'react-redux';
+import * as Pages   from './';
 
 class QuissaTrip extends Component {
     constructor(props) {
         super(props);
     }
 
-    render() {  //  <WelcomePage/>
+    render() {
         return (
-            <Router>
-                <Scene key="root">
-                    <Scene key="principal" component={ Principal } initial={true} hideNavBar={ true }/>
-                    <Scene key="welcomePage" component={ WelcomePage } hideNavBar={ true }/>
-                    <Scene key="single" component={ Single } hideNavBar={ true }/>
+            <View style={{ flex: 1 }}>
+                <Router>
+                    <Modal hideNavBar hideTabBar transparent={true}>
+                        <Scene key="root" hideNavBar hideTabBar>
+                            <Scene key="principal" component={ Pages.Principal } initial={true}/>
+                            <Scene key="welcomePage" component={ Pages.WelcomePage }/>
+                            <Scene key="single" component={ Pages.Single }/>
 
-                    {/*<Scene key="loginPage" component={Login}/>
-                    <Scene key="registerPage" component={Register}/>*/}
-                </Scene>
-            </Router>
+                            {/*<Scene key="loginPage" component={Login}/>
+                            <Scene key="registerPage" component={Register}/>*/}
+                        </Scene>
+                        <Scene key="imageFullScreen" component={ Pages.ImageFullScreen }/>
+                    </Modal>
+                </Router>
+            </View>
         )
     }
 }
 
-function mapStateToProps(state, props) {
-    return {
-        counter: state.general.openAppCounter,
-        user: state.user.user
-    }
-}
-
-export default connect(mapStateToProps)(QuissaTrip);
+export default connect(null)(QuissaTrip);
 
 const styles = StyleSheet.create({
     container: {

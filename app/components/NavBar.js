@@ -24,13 +24,15 @@ export default class NavBar extends Component {
     }
 
     render() {
-        const { onLeft, onRight, transparent, style, showBackIcon, page, showRightIcon } = this.props;
+        const { onLeft, onRight, transparent, style, showBackIcon, page, showRightIcon, statusBar } = this.props;
 
         const color = (transparent) ? "#FFF" : "#000";
+        const statusBarColor = (typeof statusBar !== "undefined") ? statusBar.bg : "transparent";
+        const statusBarStyle = (typeof statusBar !== "undefined") ? statusBar.style : "dark-content";
 
         return (
             <View style={[(transparent) ? styles.navBarTransparent : styles.navBar, style]}>
-                <StatusBar animated showHideTransition="slide" translucent={true} backgroundColor="transparent" barStyle="dark-content"/>
+                <StatusBar animated showHideTransition="slide" translucent={true} backgroundColor={ statusBarColor } barStyle={ statusBarStyle }/>
                 <View style={{ flex: 1, alignItems: "center", flexDirection: "row" }}>
                     <View style={ styles.sideIcons }>
                         {(showBackIcon !== false) && (
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
         height: 80,
         paddingTop: 24,
         elevation: 3,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#FFF",
     },
     navBarTransparent: {
         backgroundColor: "transparent",

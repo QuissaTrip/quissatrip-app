@@ -3,7 +3,8 @@ import {
     View,
     Text,
     StyleSheet,
-    FlatList
+    FlatList,
+    ScrollView
 }                                   from 'react-native';
 import { Actions, ActionConst }     from 'react-native-router-flux';
 import { connect }                  from 'react-redux';
@@ -15,7 +16,7 @@ class Places extends Component {
     }
 
     shouldComponentUpdate() {
-        return false
+        return false;
     }
 
     render() {
@@ -24,19 +25,20 @@ class Places extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <NavBar showBackIcon={ false } />
-                <FlatList
-                    data={ places }
-                    keyExtractor={(item, index) => "place_list_"+item.id }
-                    renderItem={ ({item}) => (
-                        <Card
-                            onPress={ () => Actions.single({ entityID: item.id }) }
-                            image={ item.image }
-                            style={{ marginHorizontal: 10, height: 220 }}
-                            title={ item.name }
-                            subtitle={ item.description }
-                        />
-                    )}
-                />
+                <ScrollView style={{ flex: 1 }}>
+                    { places.map((item) => {
+                        return (
+                            <Card
+                                key={ "place_list_"+item.id }
+                                onPress={ () => Actions.single({ entityID: item.id }) }
+                                image={ item.image }
+                                style={{ marginHorizontal: 10, height: 220 }}
+                                title={ item.name }
+                                subtitle={ item.description }
+                            />
+                        )
+                    }) }
+                </ScrollView>
             </View>
         )
     }

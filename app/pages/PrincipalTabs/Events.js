@@ -4,29 +4,66 @@ import {
     Text,
     StyleSheet,
     FlatList,
-    Image
-}                                   from 'react-native';
-import { Actions, ActionConst }     from 'react-native-router-flux';
-import { connect }                  from 'react-redux';
-import { NavBar }                   from '../../components/';
+    ScrollView,
+    Image,
+    Dimensions
+}                               from 'react-native';
+import { Actions }              from 'react-native-router-flux';
+import { connect }              from 'react-redux';
+import { NavBar, EventCard }    from '../../components/';
+
+const { width } = Dimensions.get('window');
 
 class Events extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            showPrevMonths: false,
+        }
+    }
+
+    renderData = (data, index) => {
+        return (
+            <View key={index + "_event_section"}>
+                <View style={{ backgroundColor: "#000", padding: 20, height: 100, justifyContent: "center" }}>
+                    <Image source={ require("../../../assets/machadinha.jpg") } style={ styles.categoryImage }/>
+                    <Text style={ styles.monthTitle }>{ data[0].month }</Text>
+                </View>
+                {
+                    data.map((item, index) => {
+                        return <EventCard key={index + "_event_card"} date={ item.date } title={ item.text } onPress={ () => null }/>
+                    })
+                }
+            </View>
+        )
     }
 
     render() {
-        const size = 28;
+        const { showPrevMonths } = this.state;
+        const events = require("../../../assets/jsons/agenda.json");
+        const month = new Date().getMonth();
+
+        const pastEvents = events.slice(0, month);
+        const nextEvents = events.slice(month);
+
         return (
-            <View style={{ flex: 1 }}>
-                <NavBar showBackIcon={ false } />
-                <View style={ styles.container }>
-                    <Text style={ styles.text }>Não existem eventos</Text>
-                    <View style={ styles.row }>
-                        <Text style={[ styles.text, { paddingBottom: 3 }]}>próximos </Text>
-                        <Image source={ require("../../../assets/sad.png") } style={{ width: size, height: size }}/>
-                    </View>
-                </View>
+            <View style={{ flex:1 }}>
+                <NavBar showBackIcon={ false }/>
+                <ScrollView style={{ flex: 1 }}>
+                    {(showPrevMonths) ? (
+                        pastEvents.map((data, index) => {
+                            return this.renderData(data, index)
+                        })
+                    ) : (
+                        <EventCard title="Mostrar meses anteriores" onPress={ () => this.setState({ showPrevMonths: true }) }/>
+                    )}
+                    {
+                        nextEvents.map((data, index) => {
+                            return this.renderData(data, index)
+                        })
+                    }
+                </ScrollView>
             </View>
         )
     }
@@ -41,15 +78,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    text: {
-        fontSize: 22,
-        textAlign: "center",
-        color: "#000",
-        fontFamily: "OpenSans-Regular"
+    categoryImage: {
+        zIndex: 100,
+        position: "absolute",
+        left: 0,
+        top: 0,
+        width: width,
+        height: 100,
+        resizeMode: "cover",
+        opacity: 0.3,
+        backgroundColor: "#000"
     },
-    row: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center"
+    monthTitle: {
+        color: "#FFF",
+        fontFamily: "OpenSans-Light",
+        fontSize: 25,
+        zIndex: 200,
+        elevation: 20
     }
 });

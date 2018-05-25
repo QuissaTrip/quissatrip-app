@@ -5,18 +5,19 @@ import {
     StatusBar,
     StyleSheet
 }                                       from 'react-native';
-import { Actions, ActionConst }         from 'react-native-router-flux';
+import { Actions }                      from 'react-native-router-flux';
 import BottomNavigation, { IconTab }    from 'react-native-material-bottom-navigation';
 import Icon                             from 'react-native-vector-icons/EvilIcons';
 import { connect }                      from 'react-redux';
-import { addCounter }                   from '../actions';
-import { Places, Events, Commerces }    from './PrincipalTabs/';
+import { Places, Events, Rolezinho }    from './PrincipalTabs/';
+import MenuPage                         from './MenuPage.js';
 
 class Principal extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            showMenu: false,
             activeTab: {
                 key: 'places',
                 icon: 'compass',
@@ -39,9 +40,21 @@ class Principal extends Component {
           barColor: '#FFF',
           pressColor: 'rgba(0, 0, 0, 0.05)'
         },
-        {
+        /*{
           key: 'commerce',
           icon: 'cart',
+          barColor: '#FFF',
+          pressColor: 'rgba(0, 0, 0, 0.05)'
+        },*/
+        {
+          key: 'rolezinho',
+          icon: 'camera',
+          barColor: '#FFF',
+          pressColor: 'rgba(0, 0, 0, 0.05)'
+        },
+        {
+          key: 'menu',
+          icon: 'navicon',
           barColor: '#FFF',
           pressColor: 'rgba(0, 0, 0, 0.05)'
         }
@@ -56,11 +69,26 @@ class Principal extends Component {
         />
     )
 
+    onPressTab = (tab) => {
+        if (tab.key == "menu") {
+            this.setState({ showMenu: true })
+        } else {
+            this.setState({ activeTab: tab });
+        }
+    }
+
+    closeMenu = () => {
+        this.setState({ showMenu: false });
+    }
+
     render() {
-        const { activeTab } = this.state;
+        const { activeTab, showMenu } = this.state;
 
         return (
             <View style={{ flex: 1 }}>
+                {(showMenu == true) && (
+                    <MenuPage closeMenu={() => this.closeMenu() }/>
+                )}
                 <StatusBar  backgroundColor="#EAEAEA" barStyle="dark-content"/>
                 <View style={{ flex: 1 }}>
                     {(activeTab.key == "places") && (
@@ -69,14 +97,14 @@ class Principal extends Component {
                     {(activeTab.key == "events") && (
                         <Events/>
                     )}
-                    {(activeTab.key == "commerce") && (
-                        <Commerces/>
+                    {(activeTab.key == "rolezinho") && (
+                        <Rolezinho/>
                     )}
                 </View>
                 <BottomNavigation
-                    onTabPress={ activeTab => this.setState({ activeTab: activeTab }) }
+                    onTabPress={(activeTab) => this.onPressTab(activeTab)}
                     renderTab={ this.renderTab }
-                    tabs={this.tabs}
+                    tabs={ this.tabs }
                 />
             </View>
         )
@@ -85,12 +113,11 @@ class Principal extends Component {
 
 function mapStateToProps(state, props) {
     return {
-        counter: state.general.openAppCounter,
         user: state.user.user
     }
 }
 
-export default connect(mapStateToProps, { addCounter })(Principal);
+export default connect(mapStateToProps)(Principal);
 
 const styles = StyleSheet.create({
     container: {

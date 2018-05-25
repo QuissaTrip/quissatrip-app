@@ -4,7 +4,6 @@ import {
     StyleSheet,
     View
 }                       from 'react-native';
-import LinearGradient   from 'react-native-linear-gradient';
 
 const colors = {
     basic: ["#FFF", "#FFF"],
@@ -18,15 +17,16 @@ export default class Button extends Component {
 
     buttonWithBackground = (color) => {
         const { style, onPress, children } = this.props;
+        // TODO: Refazer outline
         return (
             <TouchableOpacity onPress={ onPress } style={ style }>
-                <LinearGradient
+                { children }
+                {/*<LinearGradient
                     start={{ y: 0.0, x: 0.25 }} end={{ y: 0.5, x: 1.0 }}
                     colors={ colors[color] }
                     style={ styles.button }
                 >
-                    { children }
-                </LinearGradient>
+                </LinearGradient>*/}
             </TouchableOpacity>
         )
     }
@@ -36,7 +36,10 @@ export default class Button extends Component {
 
         return (
             <TouchableOpacity onPress={ onPress } style={ style }>
-                <LinearGradient
+                <View style={[ styles.button, insideButton, { elevation: 0, backgroundColor: "#FFF" }]}>
+                    { children }
+                </View>
+                {/*<LinearGradient
                     start={{ y: 0.0, x: 0.25 }} end={{ y: 0.5, x: 1.0 }}
                     colors={ colors[color] }
                     style={ styles.buttonWithBorder }
@@ -44,7 +47,7 @@ export default class Button extends Component {
                     <View style={[ styles.button, insideButton, { elevation: 0, backgroundColor: "#FFF" }]}>
                         { children }
                     </View>
-                </LinearGradient>
+                </LinearGradient>*/}
             </TouchableOpacity>
         )
     }

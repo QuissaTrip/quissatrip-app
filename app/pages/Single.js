@@ -7,13 +7,15 @@ import {
     ScrollView,
     Dimensions,
     Image,
-    StatusBar
+    StatusBar,
+    FlatList
 }                               from 'react-native';
+import { Actions }              from 'react-native-router-flux';
 import Icon                     from 'react-native-vector-icons/SimpleLineIcons';
-import ScrollableTabView        from 'react-native-scrollable-tab-view';
-import { Button, NavBar, Card } from '../components/';
+import { Button, NavBar, Card, MyHTML } from '../components/';
 
-const { height } = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
+const places = require("../../assets/jsons/place_singles.json");
 
 export default class Single extends Component {
     constructor(props) {
@@ -45,7 +47,7 @@ export default class Single extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return (nextProps.entityID !== this.state.entityID ||
+        return (nextProps.entityID !== this.props.entityID ||
                 JSON.stringify(nextState.statusBar) !== JSON.stringify(this.state.statusBar))
     }
 
@@ -72,13 +74,13 @@ export default class Single extends Component {
     render() {
         const { entityID } = this.props;
         const { statusBar } = this.state;
-        const places = require("../../assets/jsons/place_singles.json");
         const place = places.find(item => item.id === entityID);
 
         return (
             <ScrollView
                 style={{ height: height }}
-                onScroll={ this.handleScroll }>
+                onScroll={ this.handleScroll }
+            >
                 <NavBar transparent page={ false }/>
                 <StatusBar animated showHideTransition="slide" translucent={true} backgroundColor={ statusBar.bg } barStyle={ statusBar.barStyle }/>
                 <View style={ styles.container }>
@@ -97,7 +99,7 @@ export default class Single extends Component {
 
                                 <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}>
                                     <Icon name="clock" size={ 17 } color="#666"/>
-                                    <Text style={ styles.sectionText}> { this.workTime(place.open, place.close) }</Text>
+                                    <Text style={ styles.textStyle }> { this.workTime(place.open, place.close) }</Text>
                                 </View>
                             </View>
                         </Card>
@@ -115,15 +117,31 @@ export default class Single extends Component {
                         <Card onPress={ false } style={{ backgroundColor: "#FFF" }}>
                             <View>
                                 <Text style={ styles.sectionTitle }>Informações</Text>
-                                <Text style={ styles.sectionText }>{ place.info }</Text>
+                                <MyHTML content={ place.info } />
                             </View>
 
                             <View style={{ marginTop: 20 }}>
                                 <Text style={ styles.sectionTitle }>Descrição</Text>
-                                <Text style={ styles.sectionText }>{ place.description }</Text>
+                                <MyHTML content={ place.description } />
                             </View>
                         </Card>
-                        <Card onPress={ () => alert("Vai para circuito étnico") } style={{ flexDirection: "row", paddingVertical: 20, alignItems: "center", justifyContent: "center", backgroundColor: "#FFF" }}>
+
+                        <View style={{ flex: 1, width: width, marginLeft: -10 }}>
+                            <ScrollView horizontal={ true } showsHorizontalScrollIndicator={ false }>
+                                { place.images.map((uri) => {
+                                    return (
+                                        <TouchableOpacity key={ uri } style={ styles.imageSliderContainer } onPress={ () => Actions.imageFullScreen({ url: uri }) }>
+                                            <Image
+                                                style={ styles.imageSliderItem }
+                                                source={{ uri: uri }}
+                                            />
+                                        </TouchableOpacity>
+                                    )
+                                }) }
+                            </ScrollView>
+                        </View>
+
+                        <Card onPress={ () => alert("Vai para circuito étnico") } style={{ flexDirection: "row", elevation: 2, paddingVertical: 20, alignItems: "center", justifyContent: "center", backgroundColor: "#FFF" }}>
                             <Text style={ styles.cta }>Ver mais lugares do { place.circuit_name }</Text>
                             <Icon name="arrow-right" size={ 17 } color="#666"/>
                         </Card>
@@ -148,6 +166,21 @@ const styles = StyleSheet.create({
     content: {
         marginTop: -120,
         padding: 10,
+    },
+    imageSliderContainer: {
+        height: 220,
+        width: width,
+        backgroundColor: "#EAEAEA",
+        marginHorizontal: 10,
+        elevation: 1.5,
+        borderRadius: 6,
+        marginVertical: 5
+    },
+    imageSliderItem: {
+        flex: 1,
+        borderRadius: 6,
+        height: 220,
+        width: width,
     },
     backgroundImage: {
         position: "absolute",
@@ -175,10 +208,10 @@ const styles = StyleSheet.create({
         marginBottom: 12,
         fontFamily: "OpenSans-Regular"
     },
-    sectionText: {
+    textStyle: {
         fontSize: 15,
         color: "#666",
-        fontFamily: "OpenSans-Regular"
+        fontFamily: "OpenSans-Bold"
     },
     buttonOutline: {
         flexDirection: "row",
