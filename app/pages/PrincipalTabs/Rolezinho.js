@@ -46,9 +46,6 @@ class Rolezinho extends Component {
             }
         }];
 
-        console.log(rolezinhos);
-
-
         return (
             <View style={{ flex: 1 }}>
                 <NavBar showBackIcon={ false } page="Rolezinhos" />

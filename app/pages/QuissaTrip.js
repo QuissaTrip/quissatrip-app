@@ -33,6 +33,7 @@ class QuissaTrip extends Component {
                             <Scene key="registerPage" component={Register}/>*/}
                         </Scene>
                         <Scene key="imageFullScreen" component={ Pages.ImageFullScreen }/>
+                        <Scene key="rolezinhoFull" component={ Pages.RolezinhoFull }/>
                     </Modal>
                 </Router>
             </View>

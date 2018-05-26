@@ -4,6 +4,7 @@ import WelcomePage      from './WelcomePage.js';
 import Single           from './Single.js';
 import ImageFullScreen  from './ImageFullScreen.js';
 import MenuPage         from './MenuPage.js';
+import RolezinhoFull    from './RolezinhoFull.js';
 
 module.exports = {
     QuissaTrip,
@@ -11,5 +12,6 @@ module.exports = {
     WelcomePage,
     Single,
     ImageFullScreen,
-    MenuPage
+    MenuPage,
+    RolezinhoFull
 }

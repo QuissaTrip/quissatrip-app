@@ -6,9 +6,9 @@ import {
     Image,
     Dimensions,
     TouchableOpacity
-}                                   from 'react-native';
-import { Actions }                  from 'react-native-router-flux';
-import { connect }                  from 'react-redux';
+}                  from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
 
 const { height, width } = Dimensions.get('window');
 const radius = 8;
@@ -18,11 +18,16 @@ class RolezinhoCard extends Component {
         super(props);
     }
 
+    openRole = () => {
+        const { image, text, user, rolezinhoID } = this.props;
+        Actions.rolezinhoFull({ url: image });
+    }
+
     render() {
         const { image, text, user, rolezinhoID } = this.props;
 
         return (
-            <TouchableOpacity activeOpacity={ 0.9 } style={ styles.container }>
+            <TouchableOpacity onPress={ this.openRole.bind(this) } activeOpacity={ 0.9 } style={ styles.container }>
                 <Image source={{ uri: image }} style={ styles.image }/>
                 <View style={ styles.opacity }/>
                 <View style={ styles.avatarContainer }>
