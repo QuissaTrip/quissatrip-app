@@ -4,6 +4,7 @@ import {
     Text,
     StyleSheet,
     Dimensions,
+    StatusBar,
     TouchableOpacity
 }                       from 'react-native';
 import { Actions }      from 'react-native-router-flux';
@@ -58,7 +59,7 @@ export default class MenuPage extends Component {
 
     render() {
         const { animation } = this.state;
-        console.log(animation);
+
         return (
             <View style={ styles.container }>
                 <Animatable.View animation={ animation[0] } duration={ 800 } style={ styles.overlay }>

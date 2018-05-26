@@ -1,9 +1,9 @@
-import React, { Component }                     from 'react';
+import React, { Component } from 'react';
 import {
     TouchableOpacity,
     StyleSheet,
     View
-}                       from 'react-native';
+} from 'react-native';
 
 const colors = {
     basic: ["#FFF", "#FFF"],
