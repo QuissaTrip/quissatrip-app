@@ -11,13 +11,14 @@ import {
     FlatList
 }                               from 'react-native';
 import { Actions }              from 'react-native-router-flux';
+import { connect }              from 'react-redux';
 import Icon                     from 'react-native-vector-icons/SimpleLineIcons';
-import { Button, NavBar, Card, MyHTML } from '../components/';
+import { getEntity }            from '../actions/';
+import { NavBar, Card, MyHTML, Loader } from '../components/';
 
 const { height, width } = Dimensions.get('window');
-const places = require("../../assets/jsons/place_singles.json");
 
-export default class Single extends Component {
+class Single extends Component {
     constructor(props) {
         super(props);
         this.handleScroll = this.handleScroll.bind(this);
@@ -28,6 +29,10 @@ export default class Single extends Component {
                 barStyle: "light-content"
             }
         }
+    }
+
+    componentWillMount() {
+        this.props.getEntity(this.props.entityID);
     }
 
     workTime = (open, close) => {
@@ -48,6 +53,7 @@ export default class Single extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         return (nextProps.entityID !== this.props.entityID ||
+                nextProps.place !== this.props.place ||
                 JSON.stringify(nextState.statusBar) !== JSON.stringify(this.state.statusBar))
     }
 
@@ -72,9 +78,12 @@ export default class Single extends Component {
     }
 
     render() {
-        const { entityID } = this.props;
+        const { place, entityID } = this.props;
         const { statusBar } = this.state;
-        const place = places.find(item => item.id === entityID);
+
+        if (place == null || place.id !== entityID) {
+            return <Loader/>
+        }
 
         return (
             <ScrollView
@@ -130,7 +139,7 @@ export default class Single extends Component {
                             <ScrollView horizontal={ true } showsHorizontalScrollIndicator={ false }>
                                 { place.images.map((uri) => {
                                     return (
-                                        <TouchableOpacity key={ uri } style={ styles.imageSliderContainer } onPress={ () => Actions.imageFullScreen({ url: uri }) }>
+                                        <TouchableOpacity activeOpacity={ 0.85 } key={ uri } style={ styles.imageSliderContainer } onPress={ () => Actions.imageFullScreen({ url: uri }) }>
                                             <Image
                                                 style={ styles.imageSliderItem }
                                                 source={{ uri: uri }}
@@ -151,6 +160,14 @@ export default class Single extends Component {
         )
     }
 }
+
+function mapStateToProps(state, props) {
+    return {
+        place: state.entities.place
+    }
+}
+
+export default connect(mapStateToProps, { getEntity })(Single);
 
 const styles = StyleSheet.create({
     container: {
@@ -210,8 +227,8 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         fontSize: 15,
-        color: "#666",
-        fontFamily: "OpenSans-Bold"
+        color: "rgba(0,0,0,0.65)",
+        fontFamily: "OpenSans-Regular"
     },
     buttonOutline: {
         flexDirection: "row",

@@ -1,2 +1,9 @@
+// GENERAL
 export const OPEN_APP_COUNTER = 'OPEN_APP_COUNTER';
+
+// USER
 export const FETCH_USER = 'FETCH_USER';
+
+// ENTITIES
+export const FETCH_PLACES = 'FETCH_PLACES';
+export const FETCH_SINGLE_PLACE = 'FETCH_SINGLE_PLACE';

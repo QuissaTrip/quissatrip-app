@@ -1,7 +1,15 @@
-import { OPEN_APP_COUNTER } from "../common/constants"
+import * as c  from "../common/constants.js";
+import request from "../common/request.js";
 
-export function addCounter(artist) {
-    return (dispatch) => {
-        dispatch({ type: OPEN_APP_COUNTER });
+export function getEntity(id = null) {
+    if (id !== null) {
+        return (dispatch) => {
+            request({
+                url: "/entity/" + id,
+                method: "GET",
+            }).then((response) => {
+                dispatch({ type: c.FETCH_SINGLE_PLACE, place: response })
+            });
+        }
     }
 }

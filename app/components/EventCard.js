@@ -25,7 +25,7 @@ export default class EventCard extends Component {
         const { date, title, onPress, style } = this.props;
 
         return (
-            <TouchableOpacity style={[ styles.card, style ]} onPress={ this.onPress }>
+            <TouchableOpacity activeOpacity={ 1 } style={[ styles.card, style ]} onPress={ this.onPress }>
                 {(typeof date !== "undefined") && (
                     <Text style={ styles.date }>{ date }</Text>
                 )}

@@ -6,21 +6,30 @@ import {
     FlatList,
     ScrollView
 }                                   from 'react-native';
-import { Actions, ActionConst }     from 'react-native-router-flux';
+import { Actions }                  from 'react-native-router-flux';
 import { connect }                  from 'react-redux';
-import { Card, NavBar }             from '../../components/';
+import { Card, NavBar, Loader }     from '../../components/';
+import { getPlaces }                from '../../actions/places';
 
 class Places extends Component {
     constructor(props) {
         super(props);
     }
 
-    shouldComponentUpdate() {
-        return false;
+    componentWillMount() {
+        this.props.getPlaces();
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props.places !== nextProps.places;
     }
 
     render() {
-        const places = require("../../../assets/jsons/placelist.json");
+        const { places } = this.props;
+
+        if (places.length == 0) {
+            return <Loader/>
+        }
 
         return (
             <View style={{ flex: 1 }}>
@@ -31,7 +40,7 @@ class Places extends Component {
                             <Card
                                 key={ "place_list_"+item.id }
                                 onPress={ () => Actions.single({ entityID: item.id }) }
-                                image={ item.image }
+                                image={ item.images }
                                 style={{ marginHorizontal: 10, height: 220 }}
                                 title={ item.name }
                                 subtitle={ item.description }
@@ -46,12 +55,11 @@ class Places extends Component {
 
 function mapStateToProps(state, props) {
     return {
-        counter: state.general.openAppCounter,
-        user: state.user.user
+        places: state.entities.places
     }
 }
 
-export default connect(mapStateToProps)(Places);
+export default connect(mapStateToProps, { getPlaces })(Places);
 
 const styles = StyleSheet.create({
     container: {
