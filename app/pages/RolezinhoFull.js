@@ -13,30 +13,45 @@ import {
 import { Actions }      from 'react-native-router-flux';
 import SimpleIcons      from 'react-native-vector-icons/SimpleLineIcons';
 import EvilIcons        from 'react-native-vector-icons/EvilIcons';
+import * as Animatable  from 'react-native-animatable';
 import ModalSelector    from '../components/ModalSelector';
+import { SlideLoader }  from '../components';
 
+let index = 0;
 const { height, width } = Dimensions.get('window');
 const hitSlop = { top: 30, left: 30, bottom: 30, right: 30 }
 const textColor = "rgba(0,0,0,0.7)";
+const data = [
+    { key: index++, label: 'Denunciar Rolezinho' },
+    { key: index++, label: 'Compartilhar' }
+];
 
 export default class RolezinhoFull extends Component {
     constructor(props) {
         super(props);
+        this.changeLines = this.changeLines.bind(this);
+
+        this.state = {
+            numberOfLines: 1
+        }
     }
 
+    changeLines = () => {
+        if (this.state.numberOfLines == 1) {
+            this.setState({ numberOfLines: 40 });
+        } else {
+            this.setState({ numberOfLines: 1 });
+        }
+    }
 
     render() {
-        let index = 0;
-        const { url } = this.props;
-        const data = [
-            { key: index++, label: 'Denunciar Rolezinho' },
-            { key: index++, label: 'Compartilhar' }
-        ];
+        const { image, user, text } = this.props.rolezinho;
+        const { numberOfLines } = this.state;
 
         return (
             <View style={ styles.container }>
                 <StatusBar animated showHideTransition="slide" backgroundColor="#000"  barStyle="light-content"/>
-
+                <SlideLoader/>
                 <View style={ styles.topBar }>
                     <ModalSelector
                         selectStyle={{ borderWidth: 0 }}
@@ -59,12 +74,22 @@ export default class RolezinhoFull extends Component {
                 </View>
                 <Image
                     style={ styles.image }
-                    source={{ uri: url }}
+                    source={{ uri: image }}
                 />
+                <View style={ styles.bottomBar }>
+                    <View style={ styles.avatarContainer }>
+                        <Image source={{ uri: user.avatar }} style={ styles.avatar }/>
+                    </View>
+                    <TouchableOpacity onPress={ this.changeLines } activeOpacity={ 0.7 } style={ styles.textContainer }>
+                        <Text numberOfLines={ numberOfLines } style={ styles.text }>{ text }</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         )
     }
 }
+
+const avatarSize = 40;
 
 const styles = StyleSheet.create({
     container: {
@@ -89,4 +114,36 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center"
     },
+    bottomBar: {
+        width: "100%",
+        position: "absolute",
+        bottom: 0,
+        right: 0,
+        zIndex: 10,
+        padding: 10,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+        avatarContainer: {
+            backgroundColor: "#FFF",
+            width: avatarSize,
+            height: avatarSize,
+            borderRadius: (avatarSize/2),
+            justifyContent: "center",
+            alignItems: "center"
+        },
+            avatar: {
+                width: avatarSize-3,
+                height: avatarSize-3,
+                borderRadius: (avatarSize-5/2)
+            },
+        textContainer: {
+            width: "85%",
+        },
+            text: {
+                fontFamily: "OpenSans-Regular",
+                fontSize: 16,
+                color: "#FFF",
+            },
 });

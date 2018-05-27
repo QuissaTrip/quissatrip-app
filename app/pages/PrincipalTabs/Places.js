@@ -8,6 +8,7 @@ import {
 }                                   from 'react-native';
 import { Actions }                  from 'react-native-router-flux';
 import { connect }                  from 'react-redux';
+import { CardList }                 from '../../loaders';
 import { Card, NavBar, Loader }     from '../../components/';
 import { getPlaces }                from '../../actions/places';
 
@@ -27,26 +28,26 @@ class Places extends Component {
     render() {
         const { places } = this.props;
 
-        if (places.length == 0) {
-            return <Loader/>
-        }
-
         return (
             <View style={{ flex: 1 }}>
                 <NavBar showBackIcon={ false } />
                 <ScrollView style={{ flex: 1 }}>
-                    { places.map((item) => {
-                        return (
-                            <Card
-                                key={ "place_list_"+item.id }
-                                onPress={ () => Actions.single({ entityID: item.id }) }
-                                image={ item.images }
-                                style={{ marginHorizontal: 10, height: 220 }}
-                                title={ item.name }
-                                subtitle={ item.description }
-                            />
-                        )
-                    }) }
+                    {(places.length == 0) ? (
+                        <CardList/>
+                    ) : (
+                        places.map((item) => {
+                            return (
+                                <Card
+                                    key={ "place_list_"+item.id }
+                                    onPress={ () => Actions.single({ entityID: item.id }) }
+                                    image={ item.images }
+                                    style={{ marginHorizontal: 10, height: 220 }}
+                                    title={ item.name }
+                                    subtitle={ item.description }
+                                />
+                            )
+                        })
+                    )}
                 </ScrollView>
             </View>
         )

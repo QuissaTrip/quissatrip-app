@@ -19,12 +19,11 @@ class RolezinhoCard extends Component {
     }
 
     openRole = () => {
-        const { image, text, user, rolezinhoID } = this.props;
-        Actions.rolezinhoFull({ url: image });
+        Actions.rolezinhoFull({ rolezinho: this.props.rolezinho });
     }
 
     render() {
-        const { image, text, user, rolezinhoID } = this.props;
+        const { image, text, user, id } = this.props.rolezinho;
 
         return (
             <TouchableOpacity onPress={ this.openRole.bind(this) } activeOpacity={ 0.9 } style={ styles.container }>
@@ -94,9 +93,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
-    avatar: {
-        width: 45,
-        height: 45,
-        borderRadius: (45/2)
-    },
+        avatar: {
+            width: 45,
+            height: 45,
+            borderRadius: (45/2)
+        },
 });

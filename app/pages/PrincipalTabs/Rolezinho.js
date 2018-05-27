@@ -57,10 +57,7 @@ class Rolezinho extends Component {
                         ItemSeparatorComponent={() => <View style={{ margin: -7 }}/> }
                         renderItem={({ item }) =>
                             <RolezinhoCard
-                                rolezinhoID={ item.id }
-                                text={ item.text }
-                                user={ item.user }
-                                image={ item.image }
+                                rolezinho={ item }
                             />
                         }
                     />

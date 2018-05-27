@@ -3,7 +3,8 @@ import NavBar           from './NavBar.js';
 import Card             from './Card.js';
 import EventCard        from './EventCard.js';
 import MyHTML           from './HTML.js';
-import RolezinhoCard    from './RolezinhoCard.js';
+import RolezinhoCard    from './Rolezinho/RolezinhoCard.js';
+import SlideLoader      from './Rolezinho/SlideLoader.js';
 import Loader           from './Loader.js';
 
 module.exports = {
@@ -13,5 +14,6 @@ module.exports = {
     EventCard,
     MyHTML,
     RolezinhoCard,
-    Loader
+    Loader,
+    SlideLoader
 }
