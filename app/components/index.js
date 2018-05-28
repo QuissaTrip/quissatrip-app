@@ -6,6 +6,8 @@ import MyHTML           from './HTML.js';
 import RolezinhoCard    from './Rolezinho/RolezinhoCard.js';
 import SlideLoader      from './Rolezinho/SlideLoader.js';
 import Loader           from './Loader.js';
+import ButtonOutline    from './ButtonOutline.js';
+import FullPageLoader   from './FullPageLoader.js';
 
 module.exports = {
     Button,
@@ -15,5 +17,7 @@ module.exports = {
     MyHTML,
     RolezinhoCard,
     Loader,
-    SlideLoader
+    SlideLoader,
+    ButtonOutline,
+    FullPageLoader
 }

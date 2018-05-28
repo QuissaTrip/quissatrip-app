@@ -3,15 +3,13 @@ import {
     View,
     Text,
     StyleSheet,
-    Image,
-    ImageBackground,
     ScrollView,
-    Dimensions
+    Dimensions,
 }                               from 'react-native';
 import { connect }              from 'react-redux';
-import * as Animatable          from 'react-native-animatable';
+import { Actions }              from 'react-native-router-flux';
 import { addCounter }           from '../actions';
-import { Button }               from '../components/';
+import { ButtonOutline, NavBar }from '../components/';
 
 const { height, width } = Dimensions.get('window');
 
@@ -23,19 +21,20 @@ class WelcomePage extends Component {
     render() {
         return (
             <ScrollView style={{ backgroundColor: "#FFF" }}>
+                <NavBar transparent page={ false } showRightIcon={ false } color="#000"/>
                 <View style={ styles.container }>
-                    <Text style={ styles.title }>QuissaTrip</Text>
+                    <Text style={ styles.title }>Bem Vindo ao Aplicativo <Text style={ styles.titleBold }>QuissaTrip</Text></Text>
 
-                    <Button color="primary" style={ styles.button } onPress={ () => alert("Criar Conta") }>
-                        <Text style={ styles.buttonText }>Criar uma conta</Text>
-                    </Button>
-                    <Button color="primary" style={ styles.button } onPress={ () => alert("Logar") }>
-                        <Text style={ styles.buttonText }>Fazer login</Text>
-                    </Button>
-                    <Button link style={ styles.button } onPress={ () => alert("Criar Conta") }>
-                        <Text style={ styles.linkText }>Entrar como visitante</Text>
-                    </Button>
+                    <View style={{ flexDirection: "row"}}>
+                        <ButtonOutline onPress={ () => null } style={ styles.buttonLeft } color="#09b9e2">
+                            <Text style={ styles.buttonText }>Cadastrar</Text>
+                        </ButtonOutline>
+                        <ButtonOutline onPress={ () => Actions.login() } style={ styles.buttonRight } color="#08c9c6">
+                            <Text style={ styles.buttonText }>Login</Text>
+                        </ButtonOutline>
+                    </View>
                 </View>
+                <View style={ styles.bottomBox }/>
             </ScrollView>
         )
     }
@@ -43,7 +42,6 @@ class WelcomePage extends Component {
 
 mapStateToProps = (state) => {
     return {
-        counter: state.general.openAppCounter,
         user: state.user.user,
     }
 }
@@ -53,37 +51,45 @@ export default connect(mapStateToProps, { addCounter })(WelcomePage);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: height-25,
+        height: height,
         width: width,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20
     },
-    backgroundImage: {
-        position: 'absolute',
-        resizeMode: "cover",
-        height: height,
-        width: width,
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        opacity: 0.5
+    buttonLeft: {
+        padding: 12,
+        paddingHorizontal: 35,
+        marginRight: 15
     },
-    button: {
-        width: "100%",
-        paddingVertical: 20
-    },
-    linkText: {
-        color: "#0a8c8a",
-        fontSize: 16
+    buttonRight: {
+        padding: 12,
+        paddingHorizontal: 53,
+        marginLeft: 15
     },
     buttonText: {
-        color: "#FFF",
+        color: "rgba(0,0,0,0.6)",
+        fontFamily: "OpenSans-Regular",
         fontSize: 16
     },
     title: {
         fontSize: 22,
         color: "#000",
+        fontFamily: "OpenSans-Light",
+        marginBottom: 90,
+        lineHeight: 32,
+        textAlign: "center"
+    },
+    titleBold: {
+        fontFamily: "OpenSans-Regular",
+    },
+    bottomBox: {
+        width: "200%",
+        height: 200,
+        backgroundColor: "#08c9c6",
+        position: "absolute",
+        bottom: -150,
+        right: -100,
+        transform: [{ rotateZ: '-0.45rad' }]
     }
 });

@@ -2,6 +2,7 @@ import * as c from "../common/constants";
 
 let initialState = {
     places: [],
+    circuits: [],
     place: null
 };
 
@@ -20,6 +21,13 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 place
+            }
+        }
+        case c.FETCH_PLACES_OF_CIRCUIT: {
+            const circuits = action.circuits;
+            return {
+                ...state,
+                circuits
             }
         }
         default:

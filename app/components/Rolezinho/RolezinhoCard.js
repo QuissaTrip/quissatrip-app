@@ -23,11 +23,11 @@ class RolezinhoCard extends Component {
     }
 
     render() {
-        const { image, text, user, id } = this.props.rolezinho;
+        const { media, text, user, id } = this.props.rolezinho;
 
         return (
             <TouchableOpacity onPress={ this.openRole.bind(this) } activeOpacity={ 0.9 } style={ styles.container }>
-                <Image source={{ uri: image }} style={ styles.image }/>
+                <Image source={{ uri: media }} style={ styles.media }/>
                 <View style={ styles.opacity }/>
                 <View style={ styles.avatarContainer }>
                     <Image source={{ uri: user.avatar }} style={ styles.avatar }/>
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         elevation: 2,
         borderRadius: radius
     },
-    image: {
+    media: {
         width: "100%",
         height: "100%",
         position: "absolute",

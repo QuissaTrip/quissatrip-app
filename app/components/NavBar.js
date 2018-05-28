@@ -8,14 +8,17 @@ import {
     Text
 }                   from 'react-native';
 import Icon         from 'react-native-vector-icons/SimpleLineIcons';
+import EvilIcons    from 'react-native-vector-icons/EvilIcons';
 import { Actions }  from 'react-native-router-flux';
+import { connect }  from 'react-redux';
 
 const hitSlop = { top: 30, left: 30, bottom: 30, right: 30 }
 
-export default class NavBar extends Component {
+class NavBar extends Component {
     constructor(props) {
         super(props);
 
+        this.openGallery = this.openGallery.bind(this);
         this.backPage = this.backPage.bind(this);
     }
 
@@ -23,10 +26,18 @@ export default class NavBar extends Component {
         Actions.pop();
     }
 
-    render() {
-        const { onLeft, onRight, transparent, style, showBackIcon, page, showRightIcon, statusBar } = this.props;
+    openGallery = () => {
+        if (this.props.user.id !== null) {
+            // Abre galeria
+        } else {
+            Actions.welcome();
+        }
+    }
 
-        const color = (transparent) ? "#FFF" : "#000";
+    render() {
+        const { onLeft, onRight, color, showRoleIcon, transparent, style, showBackIcon, page, showRightIcon, statusBar } = this.props;
+
+        const myColor = (transparent && typeof color == "undefined") ? "#FFF" : "#000";
         const statusBarColor = (typeof statusBar !== "undefined") ? statusBar.bg : "transparent";
         const statusBarStyle = (typeof statusBar !== "undefined") ? statusBar.style : "dark-content";
 
@@ -35,21 +46,27 @@ export default class NavBar extends Component {
                 <StatusBar animated showHideTransition="slide" translucent={true} backgroundColor={ statusBarColor } barStyle={ statusBarStyle }/>
                 <View style={{ flex: 1, alignItems: "center", flexDirection: "row" }}>
                     <View style={ styles.sideIcons }>
-                        {(showBackIcon !== false) && (
-                            <TouchableOpacity onPress={ this.backPage } hitSlop={ hitSlop }>
-                                <Icon size={ 20 } color={ color } name="arrow-left"/>
+                        {(showRoleIcon === true) ? (
+                            <TouchableOpacity onPress={ this.openGallery } hitSlop={ hitSlop }>
+                                <EvilIcons size={ 32 } color={ myColor } name="camera"/>
                             </TouchableOpacity>
+                        ) : (
+                            (showBackIcon !== false) && (
+                                <TouchableOpacity onPress={ this.backPage } hitSlop={ hitSlop }>
+                                    <Icon size={ 20 } color={ myColor } name="arrow-left"/>
+                                </TouchableOpacity>
+                            )
                         )}
                     </View>
                     <View style={{ flex: 1 }}>
                         {(page !== false) && (
-                            <Text style={[ styles.title, { color: color }]}>{ (typeof page !== "undefined") ? page : "QuissaTrip" }</Text>
+                            <Text style={[ styles.title, { color: myColor }]}>{ (typeof page !== "undefined") ? page : "QuissaTrip" }</Text>
                         )}
                     </View>
                     <View style={ styles.sideIcons }>
-                        {(showRightIcon !== "false") && (
+                        {(showRightIcon !== false) && (
                             <TouchableOpacity onPress={ this.backPage } hitSlop={ hitSlop }>
-                                <Icon size={ 20 } color={ color } name="magnifier"/>
+                                <Icon size={ 20 } color={ myColor } name="magnifier"/>
                             </TouchableOpacity>
                         )}
                     </View>
@@ -58,6 +75,14 @@ export default class NavBar extends Component {
         )
     }
 }
+
+function mapStateToProps(state, props) {
+    return {
+        user: state.user.user
+    }
+}
+
+export default connect(mapStateToProps)(NavBar);
 
 const styles = StyleSheet.create({
     navBar: {

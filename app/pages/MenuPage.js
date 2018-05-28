@@ -35,7 +35,7 @@ const animations = {
     }
 }
 
-export default class MenuPage extends Component {
+class MenuPage extends Component {
     constructor(props) {
         super(props);
 
@@ -59,6 +59,7 @@ export default class MenuPage extends Component {
 
     render() {
         const { animation } = this.state;
+        const { user } = this.props;
 
         return (
             <View style={ styles.container }>
@@ -70,19 +71,30 @@ export default class MenuPage extends Component {
                         <Text style={ styles.title }>Menu</Text>
 
                         <View style={ styles.list }>
-                            <TouchableOpacity>
-                                <View style={ styles.item }>
-                                    <SimpleIcons name="map" size={ 20 } color={ itemColor } style={{ marginRight: 5, marginLeft: 4 }}/>
-                                    <Text style={ styles.text }>Circuitos</Text>
-                                </View>
-                            </TouchableOpacity>
+                            <View>
+                                <TouchableOpacity>
+                                    <View style={ styles.item }>
+                                        <SimpleIcons name="map" size={ 20 } color={ itemColor } style={{ marginRight: 5, marginLeft: 4 }}/>
+                                        <Text style={ styles.text }>Circuitos</Text>
+                                    </View>
+                                </TouchableOpacity>
 
-                            <TouchableOpacity>
-                                <View style={ styles.item }>
-                                    <EvilIcons name="cart" size={ 30 } color={ itemColor }/>
-                                    <Text style={ styles.text }>Comércios</Text>
-                                </View>
-                            </TouchableOpacity>
+                                <TouchableOpacity>
+                                    <View style={ styles.item }>
+                                        <EvilIcons name="cart" size={ 30 } color={ itemColor }/>
+                                        <Text style={ styles.text }>Comércios</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+
+                            {(typeof user.id !== "undefined" && user.id !== null) && (
+                                <TouchableOpacity>
+                                    <View style={ styles.item }>
+                                        <EvilIcons name="arrow-right" size={ 30 } color={ itemColor }/>
+                                        <Text style={ styles.text }>Logout</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            )}
                         </View>
                     </View>
                 </Animatable.View>
@@ -90,6 +102,14 @@ export default class MenuPage extends Component {
         )
     }
 }
+
+mapStateToProps = (state) => {
+    return {
+        user: state.user.user,
+    }
+}
+
+export default connect(mapStateToProps)(MenuPage);
 
 const styles = StyleSheet.create({
     container: {
@@ -136,7 +156,9 @@ const styles = StyleSheet.create({
     },
     list: {
         flex: 1,
-        width: width-110
+        width: width-110,
+        justifyContent: "space-between",
+        paddingBottom: 10
     },
         item: {
             flexDirection: "row",

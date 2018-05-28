@@ -8,13 +8,15 @@ import {
     Dimensions,
     Image,
     StatusBar,
-    FlatList
+    FlatList,
+    Linking,
+    Platform
 }                               from 'react-native';
 import { Actions }              from 'react-native-router-flux';
 import { connect }              from 'react-redux';
 import Icon                     from 'react-native-vector-icons/SimpleLineIcons';
 import { getEntity }            from '../actions/';
-import { NavBar, Card, MyHTML, Loader } from '../components/';
+import { NavBar, Card, MyHTML, Loader, ButtonOutline } from '../components/';
 
 const { height, width } = Dimensions.get('window');
 
@@ -22,6 +24,8 @@ class Single extends Component {
     constructor(props) {
         super(props);
         this.handleScroll = this.handleScroll.bind(this);
+        this.openDialer = this.openDialer.bind(this);
+        this.openMap = this.openMap.bind(this);
 
         this.state = {
             statusBar: {
@@ -59,22 +63,36 @@ class Single extends Component {
 
     handleScroll = (event) => {
         const y = event.nativeEvent.contentOffset.y;
+        const statusBar = (y >= 116) ? { bg: "#FFF", barStyle: "dark-content" } : { bg: "transparent", barStyle: "light-content" };
 
-        if (y >= 116) {
-            this.setState({
-                statusBar: {
-                    bg: "#FFF",
-                    barStyle: "dark-content"
-                }
-            });
-        } else {
-            this.setState({
-                statusBar: {
-                    bg: "transparent",
-                    barStyle: "light-content"
-                }
-            });
-        }
+        this.setState({ statusBar: statusBar });
+    }
+
+    openMap = () => {
+        const { latitude, longitude } = this.props.place;
+        const scheme = Platform.OS === 'ios' ? 'maps:' : 'geo:'
+        const url = scheme + latitude + ',' + longitude;
+
+        Linking.canOpenURL(url).then(supported => {
+            if (supported) {
+                Linking.openURL(url);
+            } else {
+                console.log("Don't know how to open URI: " + url);
+            }
+        });
+    }
+
+    openDialer = () => {
+        const { phone } = this.props.place;
+
+        const url = 'tel:' + phone;
+        Linking.canOpenURL(url).then(supported => {
+            if (supported) {
+                Linking.openURL(url);
+            } else {
+                console.log("Don't know how to open URI: " + url);
+            }
+        });
     }
 
     render() {
@@ -103,7 +121,7 @@ class Single extends Component {
 
                                 <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}>
                                     <Icon name="location-pin" size={ 17 } color="#000"/>
-                                    <Text style={[ styles.sectionTitle, { fontSize: 15, marginBottom: 0 }]}> { place.address }</Text>
+                                    <Text style={[ styles.textStyle, { color: "#000" }]}> { place.address }</Text>
                                 </View>
 
                                 <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}>
@@ -112,16 +130,16 @@ class Single extends Component {
                                 </View>
                             </View>
                         </Card>
-                        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingVertical: 10 }}>
-                            <TouchableOpacity onPress={ () => alert("Abrir mapa") } style={[ styles.buttonOutline, { borderColor: "#0098bc" }]}>
+                        <View style={ styles.buttonContainer }>
+                            <ButtonOutline onPress={ this.openMap } color="#0098bc">
                                 <Icon name="cursor" size={ 17 } color="#666"/>
                                 <Text style={ styles.buttonText }>  Encontre no Mapa</Text>
-                            </TouchableOpacity>
+                            </ButtonOutline>
 
-                            <TouchableOpacity onPress={ () => alert("Abrir discador") } style={[ styles.buttonOutline, { borderColor: "#0a9694" }]}>
+                            <ButtonOutline onPress={ this.openDialer } color="#0a9694">
                                 <Icon name="phone" size={ 17 } color="#666"/>
                                 <Text style={ styles.buttonText }>  Entre em contato</Text>
-                            </TouchableOpacity>
+                            </ButtonOutline>
                         </View>
                         <Card onPress={ false } style={{ backgroundColor: "#FFF" }}>
                             <View>
@@ -150,7 +168,7 @@ class Single extends Component {
                             </ScrollView>
                         </View>
 
-                        <Card onPress={ () => alert("Vai para circuito étnico") } style={{ flexDirection: "row", elevation: 2, paddingVertical: 20, alignItems: "center", justifyContent: "center", backgroundColor: "#FFF" }}>
+                        <Card onPress={ () => Actions.circuitList({ circuitID: place.circuit_id }) } style={{ flexDirection: "row", elevation: 2, paddingVertical: 20, alignItems: "center", justifyContent: "center", backgroundColor: "#FFF" }}>
                             <Text style={ styles.cta }>Ver mais lugares do { place.circuit_name }</Text>
                             <Icon name="arrow-right" size={ 17 } color="#666"/>
                         </Card>
@@ -244,6 +262,12 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontFamily: "OpenSans-Regular",
         color: "#666"
+    },
+    buttonContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingVertical: 10
     },
     cta: {
         fontSize: 16,

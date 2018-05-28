@@ -5,6 +5,8 @@ import Single           from './Single.js';
 import ImageFullScreen  from './ImageFullScreen.js';
 import MenuPage         from './MenuPage.js';
 import RolezinhoFull    from './RolezinhoFull.js';
+import CircuitList      from './CircuitList.js';
+import Login            from './Start/Login.js';
 
 module.exports = {
     QuissaTrip,
@@ -13,5 +15,7 @@ module.exports = {
     Single,
     ImageFullScreen,
     MenuPage,
-    RolezinhoFull
+    RolezinhoFull,
+    CircuitList,
+    Login
 }
