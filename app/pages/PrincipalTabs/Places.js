@@ -29,24 +29,25 @@ class Places extends Component {
         const { places } = this.props;
 
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor: "#FFF" }}>
                 <NavBar showBackIcon={ false } />
                 <ScrollView style={{ flex: 1 }}>
                     {(places.length == 0) ? (
                         <CardList/>
                     ) : (
-                        places.map((item) => {
-                            return (
+                        <FlatList
+                            data={ places }
+                            keyExtractor={(item, index) => "place_list_" + item.id}
+                            renderItem={({ item }) =>
                                 <Card
-                                    key={ "place_list_"+item.id }
                                     onPress={ () => Actions.single({ entityID: item.id }) }
                                     image={ item.image }
                                     style={{ marginHorizontal: 10, height: 220 }}
                                     title={ item.name }
                                     subtitle={ item.description }
                                 />
-                            )
-                        })
+                            }
+                        />
                     )}
                 </ScrollView>
             </View>

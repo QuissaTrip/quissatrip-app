@@ -10,6 +10,7 @@ import {
 import { Actions }                  from 'react-native-router-flux';
 import { connect }                  from 'react-redux';
 import { NavBar, RolezinhoCard }    from '../../components/';
+import { RolezinhoLoader }          from '../../loaders/';
 import { getRolezinhos }            from '../../actions/rolezinhos';
 
 class Rolezinho extends Component {
@@ -24,22 +25,30 @@ class Rolezinho extends Component {
     render() {
         const { rolezinhos } = this.props;
 
+        console.log(rolezinhos);
+
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor: "#FFF" }}>
                 <NavBar showRoleIcon page="Rolezinhos" />
-                <View style={ styles.container }>
-                    <FlatList
-                        data={ rolezinhos }
-                        horizontal={ true }
-                        keyExtractor={(item, index) => "rolezinho_" + item.id}
-                        ItemSeparatorComponent={() => <View style={{ margin: -7 }}/> }
-                        renderItem={({ item }) =>
-                            <RolezinhoCard
-                                rolezinho={ item }
+                <ScrollView style={{ flex: 1 }} horizontal={ true }>
+                    <View style={ styles.container }>
+                        {(typeof rolezinhos == "undefined" || rolezinhos == null || rolezinhos.length == 0) ? (
+                            <RolezinhoLoader/>
+                        ) : (
+                            <FlatList
+                                data={ rolezinhos }
+                                horizontal={ true }
+                                keyExtractor={(item, index) => "rolezinho_" + item.id}
+                                ItemSeparatorComponent={() => <View style={{ margin: -7 }}/> }
+                                renderItem={({ item }) =>
+                                    <RolezinhoCard
+                                        rolezinho={ item }
+                                    />
+                                }
                             />
-                        }
-                    />
-                </View>
+                        )}
+                    </View>
+                </ScrollView>
             </View>
         )
     }

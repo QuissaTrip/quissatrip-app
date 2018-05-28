@@ -1,9 +1,7 @@
 import React, { Component }             from 'react';
 import {
     View,
-    Text,
-    StatusBar,
-    StyleSheet
+    Text
 }                                       from 'react-native';
 import { Actions }                      from 'react-native-router-flux';
 import BottomNavigation, { IconTab }    from 'react-native-material-bottom-navigation';
@@ -31,31 +29,31 @@ class Principal extends Component {
         {
           key: 'events',
           icon: 'calendar',
-          barColor: '#FFF',
+          barColor: '#08c9c6',
           pressColor: 'rgba(0, 0, 0, 0.05)'
         },
         {
           key: 'places',
           icon: 'location',
-          barColor: '#FFF',
+          barColor: '#08c9c6',
           pressColor: 'rgba(0, 0, 0, 0.05)'
         },
         /*{
           key: 'commerce',
           icon: 'cart',
-          barColor: '#FFF',
+          barColor: '#08c9c6',
           pressColor: 'rgba(0, 0, 0, 0.05)'
         },*/
         {
           key: 'rolezinho',
           icon: 'camera',
-          barColor: '#FFF',
+          barColor: '#08c9c6',
           pressColor: 'rgba(0, 0, 0, 0.05)'
         },
         {
           key: 'menu',
           icon: 'navicon',
-          barColor: '#FFF',
+          barColor: '#08c9c6',
           pressColor: 'rgba(0, 0, 0, 0.05)'
         }
     ]
@@ -65,7 +63,7 @@ class Principal extends Component {
             isActive={(this.state.activeTab.key == tab.key)}
             key={tab.key}
             label={tab.label}
-            renderIcon={ () => <Icon size={(tab.icon == "location") ? iconSize-3 : iconSize} color="#777777" name={tab.icon} /> }
+            renderIcon={ () => <Icon size={(tab.icon == "location") ? iconSize-3 : iconSize} color="#FFF" name={tab.icon} /> }
         />
     )
 
@@ -89,7 +87,6 @@ class Principal extends Component {
                 {(showMenu == true) && (
                     <MenuPage closeMenu={() => this.closeMenu() }/>
                 )}
-                <StatusBar  backgroundColor="#EAEAEA" barStyle="dark-content"/>
                 <View style={{ flex: 1 }}>
                     {(activeTab.key == "places") && (
                         <Places/>
@@ -118,11 +115,3 @@ function mapStateToProps(state, props) {
 }
 
 export default connect(mapStateToProps)(Principal);
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-});

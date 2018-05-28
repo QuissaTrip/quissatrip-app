@@ -33,7 +33,7 @@ class RolezinhoCard extends Component {
                     <Image source={{ uri: user.avatar }} style={ styles.avatar }/>
                 </View>
                 <View style={ styles.content }>
-                    <Text numberOfLines={ 1 } style={ styles.text }>{ text }</Text>
+                    <Text numberOfLines={ 1 } style={ styles.text }>{ (text == "") ? " " : text }</Text>
                 </View>
             </TouchableOpacity>
         )

@@ -48,21 +48,23 @@ class Events extends Component {
         const nextEvents = events.slice(month);
 
         return (
-            <View style={{ flex:1 }}>
+            <View style={ styles.container }>
                 <NavBar showBackIcon={ false }/>
-                <ScrollView style={{ flex: 1 }}>
+                <ScrollView style={ styles.container }>
                     {(showPrevMonths) ? (
-                        pastEvents.map((data, index) => {
-                            return this.renderData(data, index)
-                        })
+                        <FlatList
+                            data={ pastEvents }
+                            keyExtractor={(item, index) => "agenda_" + item.date + "_" + index}
+                            renderItem={({ item, index }) => this.renderData(item, index) }
+                        />
                     ) : (
                         <EventCard title="Mostrar meses anteriores" onPress={ () => this.setState({ showPrevMonths: true }) }/>
                     )}
-                    {
-                        nextEvents.map((data, index) => {
-                            return this.renderData(data, index)
-                        })
-                    }
+                    <FlatList
+                        data={ nextEvents }
+                        keyExtractor={(item, index) => "agenda_" + item.date + "_" + index}
+                        renderItem={({ item, index }) => this.renderData(item, index) }
+                    />
                 </ScrollView>
             </View>
         )
@@ -74,9 +76,7 @@ export default connect(null)(Events);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 30,
-        justifyContent: 'center',
-        alignItems: 'center'
+        backgroundColor: "#FFF",
     },
     categoryImage: {
         zIndex: 100,

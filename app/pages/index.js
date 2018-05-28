@@ -7,6 +7,7 @@ import MenuPage         from './MenuPage.js';
 import RolezinhoFull    from './RolezinhoFull.js';
 import CircuitList      from './CircuitList.js';
 import Login            from './Start/Login.js';
+import Register         from './Start/Register.js';
 import Gallery          from './Gallery/Gallery.js';
 import SelectedMedia    from './Gallery/SelectedMedia.js';
 
@@ -21,5 +22,6 @@ module.exports = {
     CircuitList,
     Login,
     Gallery,
-    SelectedMedia
+    SelectedMedia,
+    Register
 }

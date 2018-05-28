@@ -9,14 +9,14 @@ import {
     TouchableHighlight,
     StatusBar,
     Modal
-}                       from 'react-native';
-import { Actions }      from 'react-native-router-flux';
-import { connect }      from 'react-redux';
-import SimpleIcons      from 'react-native-vector-icons/SimpleLineIcons';
-import EvilIcons        from 'react-native-vector-icons/EvilIcons';
-import * as Animatable  from 'react-native-animatable';
-import ModalSelector    from '../components/ModalSelector';
-import { SlideLoader }  from '../components';
+}                               from 'react-native';
+import { Actions, ActionConst } from 'react-native-router-flux';
+import { connect }              from 'react-redux';
+import SimpleIcons              from 'react-native-vector-icons/SimpleLineIcons';
+import EvilIcons                from 'react-native-vector-icons/EvilIcons';
+import ModalSelector            from '../components/ModalSelector';
+import { SlideLoader }          from '../components';
+import { deleteReportRolezinho }      from '../actions/rolezinhos';
 
 const { height, width } = Dimensions.get('window');
 const hitSlop = { top: 30, left: 30, bottom: 30, right: 30 }
@@ -40,19 +40,43 @@ class RolezinhoFull extends Component {
         }
     }
 
+    optionOnPress = (index) => {
+        const { user, rolezinho } = this.props;
+
+        switch (index) {
+            case 0:
+                this.props.deleteReportRolezinho(rolezinho.id, user.id, user.token, "report");
+                break;
+            case 1:
+                alert("Compartilhar rolezinho");
+                break;
+            case 2:
+                this.props.deleteReportRolezinho(rolezinho.id, user.id, user.token);
+                Actions.principal({ type: ActionConst.REPLACE });
+                break;
+        }
+    }
+
     renderOptions = (index = 0) => {
         const { user } = this.props.rolezinho;
-        const data = [
-            { key: index++, label: 'Denunciar Rolezinho' },
-            { key: index++, label: 'Compartilhar' }
+        const my_user = this.props.user;
+        let data = [
+            { key: 0, label: 'Denunciar Rolezinho' },
+            { key: 1, label: 'Compartilhar' }
         ];
+
+        if (my_user.id == user.id) {
+            data.push({
+                key: 2, label: 'Excluir'
+            })
+        }
 
         return (
             <ModalSelector
                 selectStyle={{ borderWidth: 0 }}
                 data={ data }
                 initValue={ <SimpleIcons name="options-vertical" size={ 22 } color="#FFF"/> }
-                onChange={ (option)=> console.log(option) }
+                onChange={ (option)=> this.optionOnPress(option.key) }
 
                 sectionStyle={{ marginHorizontal: 0, borderBottomColor: textColor, marginHorizontal: 20 }}
                 sectionTextStyle={{ color: textColor }}
@@ -73,7 +97,7 @@ class RolezinhoFull extends Component {
         return (
             <View style={ styles.container }>
                 <StatusBar animated showHideTransition="slide" backgroundColor="#000"  barStyle="light-content"/>
-                <SlideLoader/>
+                {/*<SlideLoader/>*/}
                 <View style={ styles.topBar }>
                     { this.renderOptions() }
                     <TouchableOpacity hitSlop={ hitSlop } onPress={ () => Actions.pop() }>
@@ -84,14 +108,16 @@ class RolezinhoFull extends Component {
                     style={ styles.media }
                     source={{ uri: media }}
                 />
-                <View style={ styles.bottomBar }>
-                    <View style={ styles.avatarContainer }>
-                        <Image source={{ uri: user.avatar }} style={ styles.avatar }/>
+                {(typeof text !== "undefined" && text !== "" && text !== null) && (
+                    <View style={ styles.bottomBar }>
+                        <View style={ styles.avatarContainer }>
+                            <Image source={{ uri: user.avatar }} style={ styles.avatar }/>
+                        </View>
+                        <TouchableOpacity onPress={ this.changeLines } activeOpacity={ 0.7 } style={ styles.textContainer }>
+                            <Text numberOfLines={ numberOfLines } style={ styles.text }>{ text }</Text>
+                        </TouchableOpacity>
                     </View>
-                    <TouchableOpacity onPress={ this.changeLines } activeOpacity={ 0.7 } style={ styles.textContainer }>
-                        <Text numberOfLines={ numberOfLines } style={ styles.text }>{ text }</Text>
-                    </TouchableOpacity>
-                </View>
+                )}
             </View>
         )
     }
@@ -103,7 +129,7 @@ function mapStateToProps(state, props) {
     }
 }
 
-export default connect(mapStateToProps)(RolezinhoFull);
+export default connect(mapStateToProps, { deleteReportRolezinho })(RolezinhoFull);
 
 const avatarSize = 40;
 
@@ -144,6 +170,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        backgroundColor: "rgba(0,0,0,0.7)",
     },
         avatarContainer: {
             backgroundColor: "#FFF",

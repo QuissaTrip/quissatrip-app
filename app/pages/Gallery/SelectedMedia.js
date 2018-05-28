@@ -9,14 +9,16 @@ import {
     TextInput,
     TouchableOpacity
 }                       from 'react-native';
-import { Actions }      from 'react-native-router-flux';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import { connect }      from 'react-redux';
 import Icon             from 'react-native-vector-icons/SimpleLineIcons';
+import EvilIcons        from 'react-native-vector-icons/EvilIcons';
 import { NavBar }       from '../../components/';
 import { newRolezinho } from '../../actions/rolezinhos';
 
 const { height, width } = Dimensions.get('window');
-const color = "#afafaf";
+const color = "#FFF";
+const closeIcon = 25;
 
 class SelectedMedia extends Component {
     constructor(props) {
@@ -33,7 +35,7 @@ class SelectedMedia extends Component {
         const { text } = this.state;
 
         this.props.newRolezinho(user.id, media, text, user.token);
-        Actions.pop({ popNum: 4 });
+        Actions.principal({ type: ActionConst.REPLACE });
     }
 
     render() {
@@ -42,7 +44,9 @@ class SelectedMedia extends Component {
 
         return (
             <View style={ styles.container }>
-                <NavBar transparent showRightIcon={ false } page="" />
+                <TouchableOpacity onPress={() => Actions.pop()} style={ styles.closeIcon }>
+                    <EvilIcons size={ closeIcon } color={ color } name="close"/>
+                </TouchableOpacity>
                 <StatusBar animated showHideTransition="slide" translucent={true} backgroundColor="rgba(0,0,0,0.5)" barStyle="light-content"/>
                 <Image
                     source={{ uri: media }}
@@ -91,6 +95,20 @@ const styles = StyleSheet.create({
         height: "100%",
         resizeMode: "contain"
     },
+    closeIcon: {
+        position: "absolute",
+        top: 35,
+        left: 10,
+        zIndex: 10,
+        height: closeIcon+6,
+        width: closeIcon+6,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 100,
+        backgroundColor: "rgba(0,0,0,0.7)",
+        borderColor: color,
+        borderWidth: 0.3
+    },
     bottomBox: {
         position: "absolute",
         bottom: 0,
@@ -104,7 +122,7 @@ const styles = StyleSheet.create({
             paddingLeft: 20,
             paddingRight: 50,
             borderWidth: 1,
-            borderColor: "#9b9b9b",
+            borderColor: color,
             borderRadius: 300,
             color: color
         },

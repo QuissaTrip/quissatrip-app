@@ -14,30 +14,58 @@ export function getRolezinhos() {
 }
 
 export function newRolezinho(userID, media, text, token) {
-    let formMedia = new FormData();
-    //formMedia.append('user_id', userID);
-    formMedia.append('media', {
+    let data = new FormData();
+    data.append('user_id', userID);
+    data.append('text', text);
+    data.append('token', token);
+    data.append('media', {
         uri: media,
-        type: 'image/jpeg', // or photo.type
-        name: 'media'
+        name: "media.jpg",
+        type: 'image/jpg'
     });
 
     return (dispatch) => {
         request({
-            url: "/rolezinho/new",
-            method: "POST",
-            headers: { 'content-type': 'multipart/form-data' },
-            data: {
-                media: formMedia
+            url: '/rolezinho/new',
+            method: 'POST',
+            data: data,
+            headers: {
+                'Content-Type': 'multipart/form-data; charset=utf-8; boundary="another cool boundary"',
             }
-        }).then((response) => {
-            console.log(response);
+        }).then(response => {
             ToastAndroid.showWithGravityAndOffset(
                 response.message,
                 ToastAndroid.LONG,
                 ToastAndroid.BOTTOM,
                 25, 50
             );
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+}
+
+export function deleteReportRolezinho(roleID, userID, token, type="delete") {
+    const url = (type == "delete") ? "/rolezinho/delete" : "/rolezinho/report";
+
+    return (dispatch) => {
+        request({
+            url: url,
+            method: 'POST',
+            data: {
+                id: roleID,
+                user_id: userID,
+                token: token
+            },
+        }).then(response => {
+            ToastAndroid.showWithGravityAndOffset(
+                response.message,
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
+                25, 50
+            );
+        }).catch(error => {
+            console.log(error);
         });
     }
 }

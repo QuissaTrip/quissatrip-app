@@ -12,6 +12,7 @@ import { connect }      from 'react-redux';
 import * as Animatable  from 'react-native-animatable';
 import EvilIcons        from 'react-native-vector-icons/EvilIcons';
 import SimpleIcons      from 'react-native-vector-icons/SimpleLineIcons';
+import { logout }       from '../actions/auth';
 
 const { height, width } = Dimensions.get('window');
 const itemColor = "rgba(0,0,0,0.7)";
@@ -38,6 +39,7 @@ const animations = {
 class MenuPage extends Component {
     constructor(props) {
         super(props);
+        this.logout = this.logout.bind(this);
 
         this.state = {
             animation: ["fadeIn", "mySlideIn"]
@@ -57,6 +59,11 @@ class MenuPage extends Component {
         clearTimeout(this.closeTimer);
     }
 
+    logout = () => {
+        this.props.logout();
+        Actions.principal({ type: ActionConst.REPLACE });
+    }
+
     render() {
         const { animation } = this.state;
         const { user } = this.props;
@@ -66,6 +73,7 @@ class MenuPage extends Component {
                 <Animatable.View animation={ animation[0] } duration={ 800 } style={ styles.overlay }>
                     <TouchableOpacity onPress={ () => this.closeMenu() } style={{ flex: 1 }}/>
                 </Animatable.View>
+                <StatusBar animated showHideTransition="slide" translucent={ true } backgroundColor="rgba(0,0,0,0.2)"/>
                 <Animatable.View animation={ animations[animation[1]] } duration={ 800 } style={ styles.content }>
                     <View style={{ flex: 1 }}>
                         <Text style={ styles.title }>Menu</Text>
@@ -88,7 +96,7 @@ class MenuPage extends Component {
                             </View>
 
                             {(typeof user.id !== "undefined" && user.id !== null) && (
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={ this.logout }>
                                     <View style={ styles.item }>
                                         <EvilIcons name="arrow-right" size={ 30 } color={ itemColor }/>
                                         <Text style={ styles.text }>Logout</Text>
@@ -109,7 +117,7 @@ mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(MenuPage);
+export default connect(mapStateToProps, { logout })(MenuPage);
 
 const styles = StyleSheet.create({
     container: {

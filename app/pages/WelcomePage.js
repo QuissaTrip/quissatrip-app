@@ -26,7 +26,7 @@ class WelcomePage extends Component {
                     <Text style={ styles.title }>Bem Vindo ao Aplicativo <Text style={ styles.titleBold }>QuissaTrip</Text></Text>
 
                     <View style={{ flexDirection: "row"}}>
-                        <ButtonOutline onPress={ () => null } style={ styles.buttonLeft } color="#09b9e2">
+                        <ButtonOutline onPress={ () => Actions.register() } style={ styles.buttonLeft } color="#09b9e2">
                             <Text style={ styles.buttonText }>Cadastrar</Text>
                         </ButtonOutline>
                         <ButtonOutline onPress={ () => Actions.login() } style={ styles.buttonRight } color="#08c9c6">

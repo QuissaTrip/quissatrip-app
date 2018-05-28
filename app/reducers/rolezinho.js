@@ -1,7 +1,7 @@
 import * as c from "../common/constants";
 
 let initialState = {
-    rolezinhos: 0,
+    rolezinhos: [],
 };
 
 export default function(state = initialState, action) {

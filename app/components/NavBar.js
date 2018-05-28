@@ -39,9 +39,14 @@ class NavBar extends Component {
     render() {
         const { onLeft, onRight, color, showRoleIcon, transparent, style, showBackIcon, page, showRightIcon, statusBar } = this.props;
 
-        const myColor = (transparent && typeof color == "undefined") ? "#FFF" : "#000";
-        const statusBarColor = (typeof statusBar !== "undefined") ? statusBar.bg : "transparent";
-        const statusBarStyle = (typeof statusBar !== "undefined") ? statusBar.style : "dark-content";
+        if (typeof color !== "undefined") {
+            myColor = color;
+        } else {
+            myColor = (transparent) ? "#FFF" : "#FFF";
+        }
+
+        const statusBarColor = (typeof statusBar !== "undefined" && typeof statusBar.bg !== "undefined") ? statusBar.bg : "transparent";
+        const statusBarStyle = (typeof statusBar !== "undefined" && typeof statusBar.style !== "undefined") ? statusBar.style : "light-content";
 
         return (
             <View style={[(transparent) ? styles.navBarTransparent : styles.navBar, style]}>
@@ -91,7 +96,8 @@ const styles = StyleSheet.create({
         height: 80,
         paddingTop: 24,
         elevation: 3,
-        backgroundColor: "#FFF",
+        backgroundColor: "#08c9c6",
+        //backgroundColor: "#FFF",
     },
     navBarTransparent: {
         backgroundColor: "transparent",

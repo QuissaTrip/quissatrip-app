@@ -9,7 +9,7 @@ import {
     ToastAndroid
 }                               from 'react-native';
 import { connect }              from 'react-redux';
-import { Actions }              from 'react-native-router-flux';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import { login }                from '../../actions/auth';
 import { ButtonOutline, NavBar, FullPageLoader } from '../../components/';
 
@@ -36,7 +36,7 @@ class Login extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.user.id !== null) {
             this.setState({ loader: false });
-            Actions.pop({ popNum: 3 });
+            Actions.principal({ type: ActionConst.REPLACE });
             ToastAndroid.showWithGravityAndOffset(
                 "Seja bem vindo, " + nextProps.user.name.split(" ")[0],
                 ToastAndroid.LONG,
@@ -50,7 +50,14 @@ class Login extends Component {
         const { email, password, loader } = this.state;
         return (
             <ScrollView keyboardShouldPersistTaps="always" style={{ backgroundColor: "#FFF" }}>
-                <NavBar transparent page="Login" showRightIcon={ false } color="#000"/>
+                <NavBar
+                    transparent
+                    style={{ backgroundColor: "#08c9c6" }}
+                    page="Login"
+                    showRightIcon={ false }
+                    color="#FFF"
+                />
+
                 {(loader) && (
                     <FullPageLoader/>
                 )}
