@@ -11,6 +11,7 @@ import Icon         from 'react-native-vector-icons/SimpleLineIcons';
 import EvilIcons    from 'react-native-vector-icons/EvilIcons';
 import { Actions }  from 'react-native-router-flux';
 import { connect }  from 'react-redux';
+import { newRolezinho } from '../actions/rolezinhos';
 
 const hitSlop = { top: 30, left: 30, bottom: 30, right: 30 }
 
@@ -27,8 +28,9 @@ class NavBar extends Component {
     }
 
     openGallery = () => {
-        if (this.props.user.id !== null) {
-            // Abre galeria
+        const { user } = this.props;
+        if (user.id !== null) {
+            Actions.gallery({ rolezinho: true });
         } else {
             Actions.welcome();
         }
@@ -82,7 +84,7 @@ function mapStateToProps(state, props) {
     }
 }
 
-export default connect(mapStateToProps)(NavBar);
+export default connect(mapStateToProps, { newRolezinho })(NavBar);
 
 const styles = StyleSheet.create({
     navBar: {

@@ -7,6 +7,8 @@ import MenuPage         from './MenuPage.js';
 import RolezinhoFull    from './RolezinhoFull.js';
 import CircuitList      from './CircuitList.js';
 import Login            from './Start/Login.js';
+import Gallery          from './Gallery/Gallery.js';
+import SelectedMedia    from './Gallery/SelectedMedia.js';
 
 module.exports = {
     QuissaTrip,
@@ -17,5 +19,7 @@ module.exports = {
     MenuPage,
     RolezinhoFull,
     CircuitList,
-    Login
+    Login,
+    Gallery,
+    SelectedMedia
 }

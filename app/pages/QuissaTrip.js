@@ -31,6 +31,9 @@ class QuissaTrip extends Component {
                             <Scene key="single" component={ Pages.Single }/>
                             <Scene key="circuitList" component={ Pages.CircuitList }/>
 
+                            <Scene key="gallery" component={ Pages.Gallery }/>
+                            <Scene key="selectedMedia" component={ Pages.SelectedMedia }/>
+
                             {/*<Scene key="loginPage" component={Login}/>
                             <Scene key="registerPage" component={Register}/>*/}
                         </Scene>
