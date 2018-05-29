@@ -126,6 +126,7 @@ class Register extends Component {
             <View>
                 <Text style={ styles.label }>{ title }</Text>
                 <TextInput
+                    fontFamily="OpenSans-Regular"
                     style={ styles.input }
                     onChangeText={(value) => this.setState({ [field]: value })}
                     value={ this.state[field] }

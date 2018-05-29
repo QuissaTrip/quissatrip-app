@@ -13,6 +13,7 @@ import Gallery              from './Gallery/Gallery.js';
 import SelectedMedia        from './Gallery/SelectedMedia.js';
 import CommerceCategories   from './Commerces/CommerceCategories.js';
 import CommerceList         from './Commerces/CommerceList.js';
+import UserProfile          from './UserProfile.js';
 
 module.exports = {
     QuissaTrip,
@@ -29,6 +30,7 @@ module.exports = {
     WelcomePage,
     Login,
     Register,
+    UserProfile,
 
     Gallery,
     SelectedMedia,

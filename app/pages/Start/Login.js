@@ -66,6 +66,7 @@ class Login extends Component {
                         <View>
                             <Text style={ styles.label }>Email</Text>
                             <TextInput
+                                fontFamily="OpenSans-Regular"
                                 style={ styles.input }
                                 onChangeText={(email) => this.setState({email})}
                                 value={ email }
@@ -73,6 +74,7 @@ class Login extends Component {
                             />
                             <Text style={ styles.label }>Senha</Text>
                             <TextInput
+                                fontFamily="OpenSans-Regular"
                                 style={ styles.input }
                                 onChangeText={(password) => this.setState({password})}
                                 value={ password }
@@ -126,8 +128,6 @@ const styles = StyleSheet.create({
             marginBottom: 10
         },
         input: {
-            borderColor: "#cccccc",
-            borderWidth: 1,
             backgroundColor: "#FFF",
             width: width-40,
             borderRadius: 300,

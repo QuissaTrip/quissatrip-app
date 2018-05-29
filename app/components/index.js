@@ -9,10 +9,12 @@ import Loader           from './Loader.js';
 import ButtonOutline    from './ButtonOutline.js';
 import FullPageLoader   from './FullPageLoader.js';
 import SadMessage       from './SadMessage.js';
+import Avatar           from './Avatar.js';
 
 module.exports = {
     Button,
     Card,
+    Avatar,
     NavBar,
     EventCard,
     MyHTML,

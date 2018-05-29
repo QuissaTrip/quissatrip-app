@@ -108,7 +108,7 @@ class MenuPage extends Component {
                                     </View>
                                 </TouchableOpacity>
                                 {(isLogged) && (
-                                    <TouchableOpacity>
+                                    <TouchableOpacity onPress={ () => Actions.userProfile() }>
                                         <View style={ styles.item }>
                                             <EvilIcons name="user" size={ 30 } color={ itemColor }/>
                                             <Text style={ styles.text }>Editar Perfil</Text>
@@ -122,22 +122,20 @@ class MenuPage extends Component {
                                         <Text style={ styles.text }>Dúvidas?</Text>
                                     </View>
                                 </TouchableOpacity>
-
-                                {(! isLogged) && (
-                                    <TouchableOpacity onPress={ () => this.logInOut("login") }>
-                                        <View style={ styles.item }>
-                                            <EvilIcons name="arrow-right" size={ 30 } color={ itemColor }/>
-                                            <Text style={ styles.text }>Fazer Login</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                )}
                             </View>
 
-                            {(isLogged) && (
+                            {(isLogged) ? (
                                 <TouchableOpacity onPress={ this.logInOut }>
                                     <View style={ styles.item }>
                                         <EvilIcons name="arrow-left" size={ 30 } color={ itemColor }/>
                                         <Text style={ styles.text }>Logout</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            ) : (
+                                <TouchableOpacity onPress={ () => this.logInOut("login") }>
+                                    <View style={ styles.item }>
+                                        <EvilIcons name="arrow-right" size={ 30 } color={ itemColor }/>
+                                        <Text style={ styles.text }>Fazer Login</Text>
                                     </View>
                                 </TouchableOpacity>
                             )}
@@ -194,7 +192,7 @@ const styles = StyleSheet.create({
     },
     title: {
         marginTop: 55,
-        marginBottom: 25,
+        marginBottom: 20,
         fontSize: 22,
         textAlign: "center",
         color: "#000",
@@ -211,7 +209,7 @@ const styles = StyleSheet.create({
             justifyContent: "flex-start",
             alignItems: "center",
             paddingVertical: 10,
-            marginVertical: 5
+            marginVertical: 8
         },
             text: {
                 fontSize: 19,

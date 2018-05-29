@@ -55,6 +55,7 @@ class SelectedMedia extends Component {
                 <View style={ styles.bottomBox }>
                     <TextInput
                         style={ styles.input }
+                        fontFamily="OpenSans-Regular"
 
                         placeholder="Adicione uma legenda"
                         placeholderTextColor={color}
