@@ -5,14 +5,15 @@ import {
     StyleSheet,
     Dimensions,
     StatusBar,
-    TouchableOpacity
-}                       from 'react-native';
-import { Actions }      from 'react-native-router-flux';
-import { connect }      from 'react-redux';
-import * as Animatable  from 'react-native-animatable';
-import EvilIcons        from 'react-native-vector-icons/EvilIcons';
-import SimpleIcons      from 'react-native-vector-icons/SimpleLineIcons';
-import { logout }       from '../actions/auth';
+    TouchableOpacity,
+    BackHandler
+}                               from 'react-native';
+import { Actions, ActionConst } from 'react-native-router-flux';
+import { connect }              from 'react-redux';
+import * as Animatable          from 'react-native-animatable';
+import EvilIcons                from 'react-native-vector-icons/EvilIcons';
+import SimpleIcons              from 'react-native-vector-icons/SimpleLineIcons';
+import { logout }               from '../actions/auth';
 
 const { height, width } = Dimensions.get('window');
 const itemColor = "rgba(0,0,0,0.7)";
@@ -39,11 +40,18 @@ const animations = {
 class MenuPage extends Component {
     constructor(props) {
         super(props);
-        this.logout = this.logout.bind(this);
+        this.logInOut = this.logInOut.bind(this);
 
         this.state = {
             animation: ["fadeIn", "mySlideIn"]
         }
+    }
+
+    componentDidMount() {
+        BackHandler.addEventListener("hardwareBackPress", () => {
+            this.closeMenu();
+            return true;
+        });
     }
 
     closeTimer = null;
@@ -52,6 +60,7 @@ class MenuPage extends Component {
         this.setState({ animation: ["fadeOut", "mySlideOut"] });
         this.closeTimer = setTimeout(() => {
             this.props.closeMenu();
+            BackHandler.removeEventListener("hardwareBackPress");
         }, 1000)
     }
 
@@ -59,14 +68,19 @@ class MenuPage extends Component {
         clearTimeout(this.closeTimer);
     }
 
-    logout = () => {
-        this.props.logout();
-        Actions.principal({ type: ActionConst.REPLACE });
+    logInOut = (type) => {
+        if (type == "login") {
+            Actions.welcome()
+        } else {
+            this.props.logout();
+            Actions.principal({ type: ActionConst.REPLACE });
+        }
     }
 
     render() {
         const { animation } = this.state;
         const { user } = this.props;
+        const isLogged = (typeof user.id !== "undefined" && user.id !== null);
 
         return (
             <View style={ styles.container }>
@@ -80,25 +94,49 @@ class MenuPage extends Component {
 
                         <View style={ styles.list }>
                             <View>
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={ () => Actions.circuits() }>
                                     <View style={ styles.item }>
                                         <SimpleIcons name="map" size={ 20 } color={ itemColor } style={{ marginRight: 5, marginLeft: 4 }}/>
                                         <Text style={ styles.text }>Circuitos</Text>
                                     </View>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={ () => Actions.commerceCategories() }>
                                     <View style={ styles.item }>
                                         <EvilIcons name="cart" size={ 30 } color={ itemColor }/>
                                         <Text style={ styles.text }>Comércios</Text>
                                     </View>
                                 </TouchableOpacity>
+                                {(isLogged) && (
+                                    <TouchableOpacity>
+                                        <View style={ styles.item }>
+                                            <EvilIcons name="user" size={ 30 } color={ itemColor }/>
+                                            <Text style={ styles.text }>Editar Perfil</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                )}
+
+                                <TouchableOpacity>
+                                    <View style={ styles.item }>
+                                        <EvilIcons name="question" size={ 30 } color={ itemColor }/>
+                                        <Text style={ styles.text }>Dúvidas?</Text>
+                                    </View>
+                                </TouchableOpacity>
+
+                                {(! isLogged) && (
+                                    <TouchableOpacity onPress={ () => this.logInOut("login") }>
+                                        <View style={ styles.item }>
+                                            <EvilIcons name="arrow-right" size={ 30 } color={ itemColor }/>
+                                            <Text style={ styles.text }>Fazer Login</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                )}
                             </View>
 
-                            {(typeof user.id !== "undefined" && user.id !== null) && (
-                                <TouchableOpacity onPress={ this.logout }>
+                            {(isLogged) && (
+                                <TouchableOpacity onPress={ this.logInOut }>
                                     <View style={ styles.item }>
-                                        <EvilIcons name="arrow-right" size={ 30 } color={ itemColor }/>
+                                        <EvilIcons name="arrow-left" size={ 30 } color={ itemColor }/>
                                         <Text style={ styles.text }>Logout</Text>
                                     </View>
                                 </TouchableOpacity>

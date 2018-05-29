@@ -5,43 +5,42 @@ import {
     StyleSheet,
     FlatList,
     ScrollView
-}                                   from 'react-native';
-import { Actions }                  from 'react-native-router-flux';
-import { connect }                  from 'react-redux';
-import { CardList }                 from '../../loaders';
-import { Card, NavBar, Loader }     from '../../components/';
-import { getPlaces }                from '../../actions/places';
+}                       from 'react-native';
+import { Actions }      from 'react-native-router-flux';
+import { connect }      from 'react-redux';
+import { CardList }     from '../../loaders';
+import { NavBar, Card } from '../../components/';
+import { getCircuits }  from '../../actions';
 
-class Places extends Component {
+class Circuits extends Component {
     constructor(props) {
         super(props);
     }
 
     componentWillMount() {
-        this.props.getPlaces();
+        this.props.getCircuits();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return this.props.places !== nextProps.places;
+        return this.props.circuits !== nextProps.circuits;
     }
 
     render() {
-        const { places } = this.props;
+        const { circuits } = this.props;
 
         return (
-            <View style={{ flex: 1, backgroundColor: "#FFF" }}>
-                <NavBar showBackIcon={ false } />
+            <View style={{ flex: 1 }}>
+                <NavBar page="Circuitos" />
                 <ScrollView style={{ flex: 1 }}>
-                    {(places.length == 0) ? (
+                    {(typeof circuits == "undefined" || circuits.length == 0) ? (
                         <CardList/>
                     ) : (
                         <FlatList
-                            data={ places }
-                            keyExtractor={(item, index) => "place_list_" + item.id}
-                            initialNumToRender={ 5 }
-                            renderItem={({ item }) =>
+                            data={ circuits }
+                            keyExtractor={(item, index) => "circuit_list_" + index}
+                            renderItem={ ({ item }) =>
                                 <Card
-                                    onPress={ () => Actions.single({ entityID: item.id }) }
+                                    onPress={ () => Actions.circuitList({ circuitID: item.id }) }
                                     image={ item.image }
                                     style={{ marginHorizontal: 10, height: 220 }}
                                     title={ item.name }
@@ -58,11 +57,11 @@ class Places extends Component {
 
 function mapStateToProps(state, props) {
     return {
-        places: state.entities.places
+        circuits: state.general.circuits
     }
 }
 
-export default connect(mapStateToProps, { getPlaces })(Places);
+export default connect(mapStateToProps, { getCircuits })(Circuits);
 
 const styles = StyleSheet.create({
     container: {

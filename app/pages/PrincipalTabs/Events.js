@@ -49,7 +49,7 @@ class Events extends Component {
 
         return (
             <View style={ styles.container }>
-                <NavBar showBackIcon={ false }/>
+                <NavBar page="Agenda" showBackIcon={ false }/>
                 <ScrollView style={ styles.container }>
                     {(showPrevMonths) ? (
                         <FlatList

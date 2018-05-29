@@ -72,7 +72,7 @@ class Gallery extends Component {
                             numColumns={3}
                             data={this.state. photos }
                             keyExtractor={(item, index) => "gallery_" + index}
-                            ItemSeparatorComponent={() => <View style={{ margin: -7 }}/> }
+                            //ItemSeparatorComponent={() => <View style={{ margin: 1 }}/> }
                             renderItem={ ({ item }) => this.renderRow(item) }
                         />
                     )
@@ -100,12 +100,15 @@ const styles = StyleSheet.create({
     imageContainer: {
         justifyContent: "center",
         alignItems: "center",
+
+        borderColor: "rgba(0,0,0,0.1)",
+        borderWidth: 1,
     },
     image: {
         width: (width/3),
         height: (width/3),
         resizeMode: "cover",
         backgroundColor: "#ededed",
-        padding: 5
+        padding: 5,
     }
 });

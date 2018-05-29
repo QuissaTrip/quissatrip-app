@@ -21,7 +21,15 @@ class WelcomePage extends Component {
     render() {
         return (
             <ScrollView style={{ backgroundColor: "#FFF" }}>
-                <NavBar transparent page={ false } showRightIcon={ false } color="#000"/>
+                <NavBar
+                    transparent
+                    page={ false }
+                    showRightIcon={ false }
+                    color="#000"
+                    statusBar={{
+                        style: "dark-content"
+                    }}
+                />
                 <View style={ styles.container }>
                     <Text style={ styles.title }>Bem Vindo ao Aplicativo <Text style={ styles.titleBold }>QuissaTrip</Text></Text>
 

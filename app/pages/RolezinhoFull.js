@@ -97,7 +97,7 @@ class RolezinhoFull extends Component {
         return (
             <View style={ styles.container }>
                 <StatusBar animated showHideTransition="slide" backgroundColor="#000"  barStyle="light-content"/>
-                {/*<SlideLoader/>*/}
+                <SlideLoader/>
                 <View style={ styles.topBar }>
                     { this.renderOptions() }
                     <TouchableOpacity hitSlop={ hitSlop } onPress={ () => Actions.pop() }>

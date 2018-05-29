@@ -1,6 +1,6 @@
 // GENERAL
 export const BASE_URL = 'http://lucascraveiropaes.com/app';
-export const OPEN_APP_COUNTER = 'OPEN_APP_COUNTER';
+export const CIRCUITS = 'CIRCUITS';
 
 // USER
 export const FETCH_USER = 'FETCH_USER';
@@ -11,6 +11,12 @@ export const LOGOUT = 'LOGOUT';
 export const FETCH_PLACES = 'FETCH_PLACES';
 export const FETCH_SINGLE_PLACE = 'FETCH_SINGLE_PLACE';
 export const FETCH_PLACES_OF_CIRCUIT = 'FETCH_PLACES_OF_CIRCUIT';
+
+// COMMERCE
+export const FETCH_COMMERCE_CATEGORIES = 'FETCH_COMMERCE_CATEGORIES';
+export const FETCH_COMMERCE_SINGLE = 'FETCH_COMMERCE_SINGLE';
+export const FETCH_COMMERCES = 'FETCH_COMMERCES';
+
 
 // ROLEZINHOS
 export const FETCH_ROLEZINHOS = 'FETCH_ROLEZINHOS';

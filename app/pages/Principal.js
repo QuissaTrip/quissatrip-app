@@ -1,7 +1,8 @@
 import React, { Component }             from 'react';
 import {
     View,
-    Text
+    Text,
+    BackHandler
 }                                       from 'react-native';
 import { Actions }                      from 'react-native-router-flux';
 import BottomNavigation, { IconTab }    from 'react-native-material-bottom-navigation';
@@ -38,12 +39,6 @@ class Principal extends Component {
           barColor: '#08c9c6',
           pressColor: 'rgba(0, 0, 0, 0.05)'
         },
-        /*{
-          key: 'commerce',
-          icon: 'cart',
-          barColor: '#08c9c6',
-          pressColor: 'rgba(0, 0, 0, 0.05)'
-        },*/
         {
           key: 'rolezinho',
           icon: 'camera',
@@ -77,6 +72,13 @@ class Principal extends Component {
 
     closeMenu = () => {
         this.setState({ showMenu: false });
+    }
+
+    componentWillUpdate() {
+        BackHandler.addEventListener("backPress", () => {
+            Actions.pop();
+            return true;
+        });
     }
 
     render() {

@@ -9,39 +9,38 @@ import {
 import { Actions }                  from 'react-native-router-flux';
 import { connect }                  from 'react-redux';
 import { CardList }                 from '../../loaders';
-import { Card, NavBar, Loader }     from '../../components/';
-import { getPlaces }                from '../../actions/places';
+import { NavBar, Card }             from '../../components/';
+import { getCommerceCategories }    from '../../actions/commerces';
 
-class Places extends Component {
+class CommerceCategories extends Component {
     constructor(props) {
         super(props);
     }
 
     componentWillMount() {
-        this.props.getPlaces();
+        this.props.getCommerceCategories();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return this.props.places !== nextProps.places;
+        return this.props.categories !== nextProps.categories;
     }
 
     render() {
-        const { places } = this.props;
+        const { categories } = this.props;
 
         return (
-            <View style={{ flex: 1, backgroundColor: "#FFF" }}>
-                <NavBar showBackIcon={ false } />
+            <View style={{ flex: 1 }}>
+                <NavBar page="Comércios" />
                 <ScrollView style={{ flex: 1 }}>
-                    {(places.length == 0) ? (
+                    {(typeof categories == "undefined" || categories.length == 0) ? (
                         <CardList/>
                     ) : (
                         <FlatList
-                            data={ places }
-                            keyExtractor={(item, index) => "place_list_" + item.id}
-                            initialNumToRender={ 5 }
-                            renderItem={({ item }) =>
+                            data={ categories }
+                            keyExtractor={(item, index) => "circuit_list_" + index}
+                            renderItem={ ({ item }) =>
                                 <Card
-                                    onPress={ () => Actions.single({ entityID: item.id }) }
+                                    onPress={ () => Actions.commerceList({ categoryID: item.id, titlePage: item.name }) }
                                     image={ item.image }
                                     style={{ marginHorizontal: 10, height: 220 }}
                                     title={ item.name }
@@ -58,11 +57,11 @@ class Places extends Component {
 
 function mapStateToProps(state, props) {
     return {
-        places: state.entities.places
+        categories: state.commerce.categories
     }
 }
 
-export default connect(mapStateToProps, { getPlaces })(Places);
+export default connect(mapStateToProps, { getCommerceCategories })(CommerceCategories);
 
 const styles = StyleSheet.create({
     container: {

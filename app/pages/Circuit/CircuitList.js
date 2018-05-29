@@ -8,10 +8,10 @@ import {
 }                                   from 'react-native';
 import { Actions }                  from 'react-native-router-flux';
 import { connect }                  from 'react-redux';
-import { CardList }                 from '../loaders';
-import { Card, NavBar, Loader }     from '../components/';
-import { getPlaces }                from '../actions/places';
-import request                      from "../common/request";
+import { CardList }                 from '../../loaders';
+import { Card, NavBar, Loader }     from '../../components/';
+import { getPlaces }                from '../../actions/places';
+import request                      from "../../common/request";
 
 class CircuitList extends Component {
     constructor(props) {

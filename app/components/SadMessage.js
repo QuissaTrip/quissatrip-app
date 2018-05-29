@@ -1,30 +1,27 @@
-import React, { Component }         from 'react';
+import React, { Component } from 'react';
 import {
     View,
     Text,
     StyleSheet,
-    FlatList,
     Image
-}                                   from 'react-native';
-import { Actions, ActionConst }     from 'react-native-router-flux';
-import { connect }                  from 'react-redux';
-import { NavBar }                   from '../../components/';
+} from 'react-native';
 
-class Commerces extends Component {
+export default class SadMessage extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
+        const { firstLine, secondLine } = this.props;
         const size = 28;
+
         return (
             <View style={{ flex: 1 }}>
-                <NavBar showBackIcon={ false } />
                 <View style={ styles.container }>
-                    <Text style={ styles.text }>Não existem comércios</Text>
+                    <Text style={ styles.text }>{ firstLine }</Text>
                     <View style={ styles.row }>
-                        <Text style={[ styles.text, { paddingBottom: 3 }]}>cadastrados ainda </Text>
-                        <Image source={ require("../../../assets/sad.png") } style={{ width: size, height: size }}/>
+                        <Text style={[ styles.text, { paddingBottom: 3 }]}>{ secondLine } </Text>
+                        <Image source={ require("../../assets/sad.png") } style={{ width: size, height: size }}/>
                     </View>
                 </View>
             </View>
@@ -32,12 +29,11 @@ class Commerces extends Component {
     }
 }
 
-export default connect(null)(Commerces);
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 30,
+        height: "100%",
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -50,6 +46,7 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: "row",
         justifyContent: "center",
+        marginTop: 10,
         alignItems: "center"
     }
 });

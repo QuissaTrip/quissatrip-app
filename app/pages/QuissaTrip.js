@@ -1,16 +1,16 @@
 import React, { Component }                     from 'react';
 import {
+    View,
+    Text,
+    StyleSheet,
+}                   from 'react-native';
+import {
     Router,
     Scene,
     Actions,
     Modal,
     ActionConst
 }                   from 'react-native-router-flux';
-import {
-    View,
-    Text,
-    StyleSheet
-}                   from 'react-native';
 import { connect }  from 'react-redux';
 import * as Pages   from './';
 
@@ -32,7 +32,12 @@ class QuissaTrip extends Component {
                             <Scene key="register" component={ Pages.Register }/>
 
                             <Scene key="single" component={ Pages.Single }/>
+
                             <Scene key="circuitList" component={ Pages.CircuitList }/>
+                            <Scene key="circuits" component={ Pages.Circuits }/>
+
+                            <Scene key="commerceCategories" component={ Pages.CommerceCategories }/>
+                            <Scene key="commerceList" component={ Pages.CommerceList }/>
 
                             <Scene key="gallery" component={ Pages.Gallery }/>
                             <Scene key="selectedMedia" component={ Pages.SelectedMedia }/>

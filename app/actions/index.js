@@ -13,3 +13,14 @@ export function getEntity(id = null) {
         }
     }
 }
+
+export function getCircuits() {
+    return (dispatch) => {
+        request({
+            url: "/circuits",
+            method: "GET",
+        }).then((circuits) => {
+            dispatch({ type: c.CIRCUITS, circuits: circuits })
+        });
+    }
+}

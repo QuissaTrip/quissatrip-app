@@ -1,20 +1,16 @@
-import { OPEN_APP_COUNTER } from "../common/constants";
+import * as c from "../common/constants";
 
 let initialState = {
-    openAppCounter: 0,
+    circuits: [],
 };
 
 export default function(state = initialState, action) {
     switch (action.type) {
-        case OPEN_APP_COUNTER:
-        {
-            let openAppCounter = state.openAppCounter;
-
-            openAppCounter += 1;
-
+        case c.CIRCUITS: {
+            const circuits = action.circuits;
             return {
                 ...state,
-                openAppCounter
+                circuits
             }
         }
         default:

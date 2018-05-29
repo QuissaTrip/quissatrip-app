@@ -8,6 +8,7 @@ import SlideLoader      from './Rolezinho/SlideLoader.js';
 import Loader           from './Loader.js';
 import ButtonOutline    from './ButtonOutline.js';
 import FullPageLoader   from './FullPageLoader.js';
+import SadMessage       from './SadMessage.js';
 
 module.exports = {
     Button,
@@ -19,5 +20,6 @@ module.exports = {
     Loader,
     SlideLoader,
     ButtonOutline,
-    FullPageLoader
+    FullPageLoader,
+    SadMessage
 }

@@ -23,10 +23,10 @@ class Register extends Component {
         this.register = this.register.bind(this);
 
         this.state = {
-            name: "banana teste",
-            email: "banana@teste.com",
-            password: "123456",
-            cpf: "913.763.771-10",
+            name: "",
+            email: "",
+            password: "",
+            cpf: "",
             avatar: BASE_URL + "/files/user.png",
             loader: false,
         }

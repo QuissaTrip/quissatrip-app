@@ -41,7 +41,7 @@ export default class Button extends Component {
         return (
             <TouchableOpacity activeOpacity={(typeof onPress == "undefined" || onPress == false) ? 1 : 0.7 } style={[ styles.card, style ]} onPress={ this.onPress }>
                 {(typeof image !== "undefined" && image !== "" && image !== null) && (
-                    <Image source={{ uri: image }} style={ styles.imageBG }/>
+                    <Image resizeMethod="resize" resizeMode="cover" source={{ uri: image }} style={ styles.imageBG }/>
                 )}
                 {(hasTitle) ? (
                     children

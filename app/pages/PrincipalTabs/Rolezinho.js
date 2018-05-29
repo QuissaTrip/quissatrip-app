@@ -25,8 +25,6 @@ class Rolezinho extends Component {
     render() {
         const { rolezinhos } = this.props;
 
-        console.log(rolezinhos);
-
         return (
             <View style={{ flex: 1, backgroundColor: "#FFF" }}>
                 <NavBar showRoleIcon page="Rolezinhos" />
@@ -40,11 +38,7 @@ class Rolezinho extends Component {
                                 horizontal={ true }
                                 keyExtractor={(item, index) => "rolezinho_" + item.id}
                                 ItemSeparatorComponent={() => <View style={{ margin: -7 }}/> }
-                                renderItem={({ item }) =>
-                                    <RolezinhoCard
-                                        rolezinho={ item }
-                                    />
-                                }
+                                renderItem={({ item }) => <RolezinhoCard rolezinho={ item } /> }
                             />
                         )}
                     </View>

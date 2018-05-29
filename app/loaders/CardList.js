@@ -12,6 +12,10 @@ export default class CardList extends Component {
         super(props);
     }
 
+    shouldComponentUpdate() {
+        return false
+    }
+
     render() {
         return (
             <View style={ styles.container }>
