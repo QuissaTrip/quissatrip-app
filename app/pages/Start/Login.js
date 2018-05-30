@@ -50,13 +50,7 @@ class Login extends Component {
         const { email, password, loader } = this.state;
         return (
             <ScrollView keyboardShouldPersistTaps="always" style={{ backgroundColor: "#FFF" }}>
-                <NavBar
-                    transparent
-                    style={{ backgroundColor: "#08c9c6" }}
-                    page="Login"
-                    showRightIcon={ false }
-                    color="#FFF"
-                />
+                <NavBar page="Login" showRightIcon={ false }/>
 
                 {(loader) && (
                     <FullPageLoader/>
@@ -105,7 +99,7 @@ export default connect(mapStateToProps, { login })(Login);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: height,
+        height: height-80,
         width: width,
         justifyContent: 'center',
         alignItems: 'center',
@@ -114,7 +108,6 @@ const styles = StyleSheet.create({
     form: {
         padding: 5,
         zIndex: 10,
-        marginTop: 65,
         flex: 1,
         paddingVertical: 40,
         justifyContent: "space-around",

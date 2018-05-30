@@ -26,6 +26,9 @@ class QuissaTrip extends Component {
                     <Modal hideNavBar hideTabBar transparent={true}>
                         <Scene key="root" hideNavBar hideTabBar>
                             <Scene key="principal" component={ Pages.Principal } initial={true}/>
+                            <Scene key="search" component={ Pages.Search }/>
+                            <Scene key="filters" component={ Pages.Filters }/>
+
                             <Scene key="welcome" component={ Pages.WelcomePage }/>
                             <Scene key="login" component={ Pages.Login }/>
                             <Scene key="register" component={ Pages.Register }/>

@@ -21,10 +21,15 @@ class NavBar extends Component {
 
         this.openGallery = this.openGallery.bind(this);
         this.backPage = this.backPage.bind(this);
+        this.search = this.search.bind(this);
     }
 
     backPage = () => {
         Actions.pop();
+    }
+
+    search = () => {
+        Actions.search();
     }
 
     openGallery = () => {
@@ -72,7 +77,7 @@ class NavBar extends Component {
                     </View>
                     <View style={ styles.sideIcons }>
                         {(showRightIcon !== false) && (
-                            <TouchableOpacity onPress={ this.backPage } hitSlop={ hitSlop }>
+                            <TouchableOpacity onPress={ this.search } hitSlop={ hitSlop }>
                                 <Icon size={ 20 } color={ myColor } name="magnifier"/>
                             </TouchableOpacity>
                         )}
@@ -97,7 +102,6 @@ const styles = StyleSheet.create({
         paddingTop: 24,
         elevation: 3,
         backgroundColor: "#08c9c6",
-        //backgroundColor: "#FFF",
     },
     navBarTransparent: {
         backgroundColor: "transparent",

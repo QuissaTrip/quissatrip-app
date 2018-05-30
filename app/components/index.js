@@ -10,6 +10,7 @@ import ButtonOutline    from './ButtonOutline.js';
 import FullPageLoader   from './FullPageLoader.js';
 import SadMessage       from './SadMessage.js';
 import Avatar           from './Avatar.js';
+import SearchInput      from './Search/SearchInput.js';
 
 module.exports = {
     Button,
@@ -23,5 +24,6 @@ module.exports = {
     SlideLoader,
     ButtonOutline,
     FullPageLoader,
-    SadMessage
+    SadMessage,
+    SearchInput
 }
