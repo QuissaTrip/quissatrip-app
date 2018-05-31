@@ -20,10 +20,16 @@ export default class Avatar extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.avatar !== this.state.avatar) {
+            this.setState({ avatar: nextProps.avatar });
+        }
+    }
+
     render() {
         const { avatar } = this.state;
         const { size, style, containerStyle } = this.props;
-
+        
         return (
             <View style={[ styles.avatarContainer, { height: size, width: size }, containerStyle]}>
                 <Image

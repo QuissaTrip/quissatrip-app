@@ -14,6 +14,7 @@ import { Actions }                      from 'react-native-router-flux';
 import { connect }                      from 'react-redux';
 import { NavBar,Avatar,ButtonOutline }  from '../components/';
 import { BASE_URL }                     from '../common/constants/';
+import { updateProfile }                from '../actions/auth/';
 
 const { height, width } = Dimensions.get('window');
 const bgImage = BASE_URL + "/files/circuits/historico.jpg";
@@ -49,7 +50,10 @@ class UserProfile extends Component {
 
     openGallery = () => {
         Actions.gallery({
-            onMediaPress: () => Actions.pop()
+            onMediaPress: (media) => {
+                this.setState({ avatar: media });
+                Actions.pop();
+            }
         });
     }
 
@@ -74,11 +78,21 @@ class UserProfile extends Component {
     }
 
     update = () => {
+        const { name, email, password, cpf, avatar } = this.state;
+        this.props.updateProfile({
+            name: name,
+            email: email,
+            password: password,
+            cpf: cpf,
+            avatar: avatar,
+            token: this.props.user.token,
+            user_id: this.props.user.id
+        });
         Actions.pop();
     }
 
     render() {
-        const { user } = this.props;
+        const { avatar } = this.state;
 
         return (
             <View style={{ flex: 1 }}>
@@ -90,7 +104,7 @@ class UserProfile extends Component {
                         </View>
 
                         <TouchableOpacity activeOpacity={ 0.8 } onPress={ this.openGallery } style={ styles.avatar }>
-                            <Avatar avatar={ user.avatar } size={ avatarSize } containerStyle={{ elevation: 6, margin: 10 }}/>
+                            <Avatar avatar={ avatar } size={ avatarSize } containerStyle={{ elevation: 6, margin: 10 }}/>
                         </TouchableOpacity>
 
                         { this.renderInput("name", "Nome Completo") }
@@ -114,7 +128,7 @@ mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(UserProfile);
+export default connect(mapStateToProps, { updateProfile })(UserProfile);
 
 const styles = StyleSheet.create({
     container: {

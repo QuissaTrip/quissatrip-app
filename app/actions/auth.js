@@ -12,7 +12,13 @@ export function login(email, password) {
                 password: password
             }
         }).then((response) => {
-            dispatch({ type: c.FETCH_USER, user: response.user })
+            if (response.status) {
+                toastBottom("Seja bem vindo, " + response.user.name.split(" ")[0]);
+                dispatch({ type: c.FETCH_USER, user: response.user });
+            } else {
+                toastBottom(response.errors[0]);
+                dispatch({ type: c.FETCH_USER_ERROR, error: response.errors });
+            }
         });
     }
 }
@@ -30,7 +36,39 @@ export function register(data) {
                 dispatch({ type: c.FETCH_USER, user: response.user });
             } else {
                 toastBottom(response.errors[0]);
-                dispatch({ type: c.FETCH_USER_ERROR, error: response.errors });
+            }
+        });
+    }
+}
+
+export function updateProfile(user) {
+    let data = new FormData();
+    data.append('user_id', user.user_id);
+    data.append('name', user.name);
+    data.append('email', user.email);
+    data.append('password', user.password);
+    data.append('cpf', user.cpf);
+    data.append('token', user.token);
+    data.append('avatar', {
+        uri: user.avatar,
+        name: "media.jpg",
+        type: 'image/jpg'
+    });
+
+    return (dispatch) => {
+        request({
+            url: "/user/update",
+            method: "POST",
+            data: data,
+            headers: {
+                'Content-Type': 'multipart/form-data; charset=utf-8; boundary="another cool boundary"',
+            }
+        }).then((response) => {
+            if (response.status) {
+                toastBottom("Seu perfil foi atualizado com sucesso!");
+                dispatch({ type: c.FETCH_USER, user: response.user });
+            } else {
+                toastBottom(response.errors[0]);
             }
         });
     }

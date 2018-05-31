@@ -27,10 +27,20 @@ class Login extends Component {
         }
     }
 
+    timer = null;
+
     login = () => {
         const { email, password } = this.state;
         this.props.login(email, password);
         this.setState({ loader: true });
+
+        this.timer = setTimeout(() =>
+            this.setState({ loader: false }),
+        1500);
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timer);
     }
 
     componentWillReceiveProps(nextProps) {
