@@ -1,6 +1,7 @@
 // GENERAL
 export const BASE_URL = 'http://lucascraveiropaes.com/app';
 export const CIRCUITS = 'CIRCUITS';
+export const FETCH_EVENTS = 'FETCH_EVENTS';
 
 // USER
 export const FETCH_USER = 'FETCH_USER';

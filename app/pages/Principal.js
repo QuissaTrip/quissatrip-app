@@ -7,8 +7,9 @@ import {
 import { Actions }                      from 'react-native-router-flux';
 import BottomNavigation, { IconTab }    from 'react-native-material-bottom-navigation';
 import Icon                             from 'react-native-vector-icons/EvilIcons';
+import SimpleIcons                      from 'react-native-vector-icons/SimpleLineIcons';
 import { connect }                      from 'react-redux';
-import { Places, Events, Rolezinho }    from './PrincipalTabs/';
+import { CityInfo, Events, Rolezinho }  from './PrincipalTabs/';
 import MenuPage                         from './MenuPage.js';
 
 class Principal extends Component {
@@ -18,7 +19,7 @@ class Principal extends Component {
         this.state = {
             showMenu: false,
             activeTab: {
-                key: 'places',
+                key: 'cityInfo',
                 icon: 'compass',
                 barColor: '#FFF',
                 pressColor: 'rgba(0, 0, 0, 0.05)'
@@ -34,8 +35,8 @@ class Principal extends Component {
           pressColor: 'rgba(0, 0, 0, 0.05)'
         },
         {
-          key: 'places',
-          icon: 'location',
+          key: 'cityInfo',
+          icon: 'home',
           barColor: '#08c9c6',
           pressColor: 'rgba(0, 0, 0, 0.05)'
         },
@@ -58,7 +59,13 @@ class Principal extends Component {
             isActive={(this.state.activeTab.key == tab.key)}
             key={tab.key}
             label={tab.label}
-            renderIcon={ () => <Icon size={(tab.icon == "location") ? iconSize-3 : iconSize} color="#FFF" name={tab.icon} /> }
+            renderIcon={ () => {
+                if (tab.key == "cityInfo") {
+                    return <SimpleIcons size={ 19 } color="#FFF" name={tab.icon} />
+                } else {
+                    return <Icon size={ iconSize } color="#FFF" name={tab.icon} />
+                }
+            }}
         />
     )
 
@@ -90,8 +97,8 @@ class Principal extends Component {
                     <MenuPage closeMenu={() => this.closeMenu() }/>
                 )}
                 <View style={{ flex: 1 }}>
-                    {(activeTab.key == "places") && (
-                        <Places/>
+                    {(activeTab.key == "cityInfo") && (
+                        <CityInfo/>
                     )}
                     {(activeTab.key == "events") && (
                         <Events/>

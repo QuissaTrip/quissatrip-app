@@ -23,7 +23,8 @@ export default class ImageFullScreen extends Component {
     }
 
     render() {
-        const { url } = this.props;
+        const { url, require } = this.props;
+        const image = (typeof require !== "undefined") ? require : { uri: url };
 
         return (
             <View style={ styles.container }>
@@ -33,7 +34,7 @@ export default class ImageFullScreen extends Component {
                 </TouchableOpacity>
                 <Image
                     style={ styles.image }
-                    source={{ uri: url }}
+                    source={ image }
                 />
             </View>
         )

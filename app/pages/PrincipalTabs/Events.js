@@ -10,6 +10,7 @@ import {
 }                               from 'react-native';
 import { Actions }              from 'react-native-router-flux';
 import { connect }              from 'react-redux';
+import { getEvents }            from '../../actions/';
 import { NavBar, EventCard }    from '../../components/';
 
 const { width } = Dimensions.get('window');
@@ -21,6 +22,10 @@ class Events extends Component {
         this.state = {
             showPrevMonths: false,
         }
+    }
+
+    componentWillMount() {
+        this.props.getEvents()
     }
 
     renderData = (data, index) => {
@@ -41,9 +46,13 @@ class Events extends Component {
 
     render() {
         const { showPrevMonths } = this.state;
-        const events = require("../../../assets/jsons/agenda.json");
-        const month = new Date().getMonth();
+        let events = [];
 
+        for(let key in this.props.events) {
+            events.push(this.props.events[key])
+        }
+
+        const month = new Date().getMonth();
         const pastEvents = events.slice(0, month);
         const nextEvents = events.slice(month);
 
@@ -71,7 +80,13 @@ class Events extends Component {
     }
 }
 
-export default connect(null)(Events);
+function mapStateToProps(state, props) {
+    return {
+        events: state.general.events
+    }
+}
+
+export default connect(mapStateToProps, { getEvents })(Events);
 
 const styles = StyleSheet.create({
     container: {

@@ -7,7 +7,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 
 const screenWidth = Dimensions.get('window').width;
-const inch = screenWidth/500;
+const inch = screenWidth/800;
 
 export default class SlideLoader extends Component {
     constructor(props) {
@@ -21,7 +21,11 @@ export default class SlideLoader extends Component {
     timer = null;
 
     setWidth = () => {
-        const newWidth = this.state.width+inch;
+        let newWidth = this.state.width + inch;
+        if (this.props.pause === true) {
+            newWidth = this.state.width;
+        }
+
         if (newWidth <= screenWidth) {
             this.timer = setTimeout(() => {
                 this.setState({ width: newWidth });

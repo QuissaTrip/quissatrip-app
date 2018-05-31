@@ -6,6 +6,8 @@ import ImageFullScreen      from './ImageFullScreen.js';
 import MenuPage             from './MenuPage.js';
 import RolezinhoFull        from './RolezinhoFull.js';
 import UserProfile          from './UserProfile.js';
+import WhereToGo            from './WhereToGo.js';
+import MoreApps             from './MoreApps.js';
 
 import CircuitList          from './Circuit/CircuitList.js';
 import Circuits             from './Circuit/Circuits.js';
@@ -27,6 +29,8 @@ module.exports = {
     Principal,
     Single,
     MenuPage,
+    WhereToGo,
+    MoreApps,
 
     RolezinhoFull,
     ImageFullScreen,

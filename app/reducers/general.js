@@ -2,6 +2,7 @@ import * as c from "../common/constants";
 
 let initialState = {
     circuits: [],
+    events: [],
 };
 
 export default function(state = initialState, action) {
@@ -11,6 +12,13 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 circuits
+            }
+        }
+        case c.FETCH_EVENTS: {
+            const events = action.events;
+            return {
+                ...state,
+                events
             }
         }
         default:

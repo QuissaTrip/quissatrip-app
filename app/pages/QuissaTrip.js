@@ -29,6 +29,9 @@ class QuissaTrip extends Component {
                             <Scene key="search" component={ Pages.Search }/>
                             <Scene key="filters" component={ Pages.Filters }/>
 
+                            <Scene key="whereToGo" component={ Pages.WhereToGo }/>
+                            <Scene key="moreApps" component={ Pages.MoreApps }/>
+
                             <Scene key="welcome" component={ Pages.WelcomePage }/>
                             <Scene key="login" component={ Pages.Login }/>
                             <Scene key="register" component={ Pages.Register }/>

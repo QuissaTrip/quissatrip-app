@@ -115,12 +115,18 @@ export default class ModalSelector extends React.Component {
     }
 
     close = () => {
+        if (typeof this.props.onClose !== "undefined") {
+            this.props.onClose();
+        }
         this.setState({
             modalVisible: false,
         });
     }
 
     open = () => {
+        if (typeof this.props.onOpen !== "undefined") {
+            this.props.onOpen();
+        }
         this.setState({
             modalVisible: true,
             changedItem:  undefined,

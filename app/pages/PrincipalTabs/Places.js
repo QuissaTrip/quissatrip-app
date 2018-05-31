@@ -26,11 +26,13 @@ class Places extends Component {
     }
 
     render() {
-        const { places } = this.props;
+        const { places, hideNavbar } = this.props;
 
         return (
             <View style={{ flex: 1, backgroundColor: "#FFF" }}>
-                <NavBar showBackIcon={ false } />
+                {(hideNavbar !== true) && (
+                    <NavBar showBackIcon={ false } />
+                )}
                 <ScrollView style={{ flex: 1 }}>
                     {(places.length == 0) ? (
                         <CardList/>

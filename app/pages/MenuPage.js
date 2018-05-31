@@ -2,17 +2,21 @@ import React, { Component }         from 'react';
 import {
     View,
     Text,
+    Image,
     StyleSheet,
     Dimensions,
     StatusBar,
+    ScrollView,
     TouchableOpacity,
     BackHandler
 }                               from 'react-native';
+import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import { connect }              from 'react-redux';
 import * as Animatable          from 'react-native-animatable';
 import EvilIcons                from 'react-native-vector-icons/EvilIcons';
 import SimpleIcons              from 'react-native-vector-icons/SimpleLineIcons';
+import FontAwesome              from 'react-native-vector-icons/FontAwesome';
 import { logout }               from '../actions/auth';
 
 const { height, width } = Dimensions.get('window');
@@ -77,36 +81,78 @@ class MenuPage extends Component {
         }
     }
 
+    onSwipeRight() {
+        this.closeMenu();
+    }
+
     render() {
         const { animation } = this.state;
         const { user } = this.props;
         const isLogged = (typeof user.id !== "undefined" && user.id !== null);
+        const animationDuration = 400;
+        const config = {
+            velocityThreshold: 0.3,
+            directionalOffsetThreshold: 80
+        };
 
         return (
-            <View style={ styles.container }>
-                <Animatable.View animation={ animation[0] } duration={ 800 } style={ styles.overlay }>
+            <GestureRecognizer
+                onSwipeRight={() => this.onSwipeRight()}
+                config={ config }
+                style={ styles.container }
+            >
+                <Animatable.View animation={ animation[0] } duration={ animationDuration } style={ styles.overlay }>
                     <TouchableOpacity onPress={ () => this.closeMenu() } style={{ flex: 1 }}/>
                 </Animatable.View>
                 <StatusBar animated showHideTransition="slide" translucent={ true } backgroundColor="rgba(0,0,0,0.2)"/>
-                <Animatable.View animation={ animations[animation[1]] } duration={ 800 } style={ styles.content }>
-                    <View style={{ flex: 1 }}>
+                <Animatable.View animation={ animations[animation[1]] } duration={ animationDuration } style={ styles.content }>
+                    <ScrollView style={{ flex: 1, width: width-70, paddingHorizontal: 20 }}>
                         <Text style={ styles.title }>Menu</Text>
 
                         <View style={ styles.list }>
-                            <View>
+                            <View style={{ marginBottom: 50 }}>
                                 <TouchableOpacity onPress={ () => Actions.circuits() }>
                                     <View style={ styles.item }>
                                         <SimpleIcons name="map" size={ 20 } color={ itemColor } style={{ marginRight: 5, marginLeft: 4 }}/>
-                                        <Text style={ styles.text }>Circuitos</Text>
+                                        <Text style={ styles.text }>Circuitos Turísticos</Text>
                                     </View>
                                 </TouchableOpacity>
 
                                 <TouchableOpacity onPress={ () => Actions.commerceCategories() }>
                                     <View style={ styles.item }>
                                         <EvilIcons name="cart" size={ 30 } color={ itemColor }/>
-                                        <Text style={ styles.text }>Comércios</Text>
+                                        <Text style={ styles.text }>Serviços</Text>
                                     </View>
                                 </TouchableOpacity>
+
+                                <TouchableOpacity onPress={ () => Actions.commerceList({ categoryID: 1, titlePage: "Restaurantes" }) }>
+                                    <View style={ styles.item }>
+                                        <Image source={ require("../../assets/drink-glass.png") } style={{ height: 25, width: 25, marginRight: 3 }} />
+                                        <Text style={ styles.text }>Onde comer</Text>
+                                    </View>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity onPress={ () => Actions.whereToGo() }>
+                                    <View style={ styles.item }>
+                                        <SimpleIcons name="directions" size={ 20 } color={ itemColor } style={{ marginRight: 5, marginLeft: 4 }}/>
+                                        <Text style={ styles.text }>O que visitar</Text>
+                                    </View>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity onPress={ () => Actions.commerceList({ categoryID: 2, titlePage: "Hotéis" }) }>
+                                    <View style={ styles.item }>
+                                        <SimpleIcons name="location-pin" size={ 20 } color={ itemColor } style={{ marginRight: 5, marginLeft: 4 }}/>
+                                        <Text style={ styles.text }>Onde ficar</Text>
+                                    </View>
+                                </TouchableOpacity>
+
+                                {/*<TouchableOpacity>
+                                    <View style={ styles.item }>
+                                        <EvilIcons name="question" size={ 30 } color={ itemColor }/>
+                                        <Text style={ styles.text }>Dúvidas</Text>
+                                    </View>
+                                </TouchableOpacity>*/}
+
                                 {(isLogged) && (
                                     <TouchableOpacity onPress={ () => Actions.userProfile() }>
                                         <View style={ styles.item }>
@@ -116,10 +162,10 @@ class MenuPage extends Component {
                                     </TouchableOpacity>
                                 )}
 
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={ () => Actions.moreApps() }>
                                     <View style={ styles.item }>
-                                        <EvilIcons name="question" size={ 30 } color={ itemColor }/>
-                                        <Text style={ styles.text }>Dúvidas?</Text>
+                                        <Image source={ require("../../assets/plus.png") } style={{ height: 20, width: 20, marginRight: 4, marginLeft: 7 }} />
+                                        <Text style={ styles.text }>Veja mais cidades</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>
@@ -140,9 +186,9 @@ class MenuPage extends Component {
                                 </TouchableOpacity>
                             )}
                         </View>
-                    </View>
+                    </ScrollView>
                 </Animatable.View>
-            </View>
+            </GestureRecognizer>
         )
     }
 }
@@ -178,7 +224,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         backgroundColor: "#FFF",
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     overlay: {
         position: "absolute",
@@ -200,7 +246,6 @@ const styles = StyleSheet.create({
     },
     list: {
         flex: 1,
-        width: width-110,
         justifyContent: "space-between",
         paddingBottom: 10
     },
@@ -209,7 +254,7 @@ const styles = StyleSheet.create({
             justifyContent: "flex-start",
             alignItems: "center",
             paddingVertical: 10,
-            marginVertical: 8
+            marginVertical: 8,
         },
             text: {
                 fontSize: 19,
@@ -217,5 +262,5 @@ const styles = StyleSheet.create({
                 color: itemColor,
                 fontFamily: "OpenSans-Regular",
                 marginLeft: 10
-            },
+            }
 });

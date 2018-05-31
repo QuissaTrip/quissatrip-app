@@ -24,3 +24,14 @@ export function getCircuits() {
         });
     }
 }
+
+export function getEvents() {
+    return (dispatch) => {
+        request({
+            url: "/events",
+            method: "GET",
+        }).then((events) => {
+            dispatch({ type: c.FETCH_EVENTS, events: events })
+        });
+    }
+}

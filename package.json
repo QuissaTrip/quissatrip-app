@@ -19,6 +19,7 @@
     "react-native-router-flux": "^4.0.0-beta.28",
     "react-native-scrollable-tab-view": "^0.8.0",
     "react-native-shimmer": "^0.3.2",
+    "react-native-swipe-gestures": "^1.0.2",
     "react-native-vector-icons": "^4.6.0",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",

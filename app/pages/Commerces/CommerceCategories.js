@@ -30,7 +30,7 @@ class CommerceCategories extends Component {
 
         return (
             <View style={{ flex: 1 }}>
-                <NavBar page="Comércios" />
+                <NavBar page="Serviços" />
                 <ScrollView style={{ flex: 1 }}>
                     {(typeof categories == "undefined" || categories.length == 0) ? (
                         <CardList/>

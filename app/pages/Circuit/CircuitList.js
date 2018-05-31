@@ -3,7 +3,6 @@ import {
     View,
     Text,
     StyleSheet,
-    FlatList,
     ScrollView
 }                                   from 'react-native';
 import { Actions }                  from 'react-native-router-flux';

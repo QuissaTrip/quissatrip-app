@@ -131,27 +131,36 @@ class Single extends Component {
                             </View>
                         </Card>
                         <View style={ styles.buttonContainer }>
-                            <ButtonOutline onPress={ this.openMap } color="#0098bc">
-                                <Icon name="cursor" size={ 17 } color="#666"/>
-                                <Text style={ styles.buttonText }>  Encontre no Mapa</Text>
-                            </ButtonOutline>
+                            {(place.latitude !== "" && place.longitude !== "") && (
+                                <ButtonOutline onPress={ this.openMap } color="#0098bc">
+                                    <Icon name="cursor" size={ 17 } color="#666"/>
+                                    <Text style={ styles.buttonText }>  Encontre no Mapa</Text>
+                                </ButtonOutline>
+                            )}
 
-                            <ButtonOutline onPress={ this.openDialer } color="#0a9694">
-                                <Icon name="phone" size={ 17 } color="#666"/>
-                                <Text style={ styles.buttonText }>  Entre em contato</Text>
-                            </ButtonOutline>
+                            {(place.phone !== "") && (
+                                <ButtonOutline onPress={ this.openDialer } color="#0a9694">
+                                    <Icon name="phone" size={ 17 } color="#666"/>
+                                    <Text style={ styles.buttonText }>  Entre em contato</Text>
+                                </ButtonOutline>
+                            )}
                         </View>
-                        <Card onPress={ false } style={{ backgroundColor: "#FFF" }}>
-                            <View>
-                                <Text style={ styles.sectionTitle }>Informações</Text>
-                                <MyHTML content={ place.info } />
-                            </View>
-
-                            <View style={{ marginTop: 20 }}>
-                                <Text style={ styles.sectionTitle }>Descrição</Text>
-                                <MyHTML content={ place.description } />
-                            </View>
-                        </Card>
+                        {(place.info !== "" && place.description !== "") && (
+                            <Card onPress={ false } style={{ backgroundColor: "#FFF" }}>
+                                {(place.info !== "") && (
+                                    <View>
+                                        <Text style={ styles.sectionTitle }>Informações</Text>
+                                        <MyHTML content={ place.info } />
+                                    </View>
+                                )}
+                                {(place.description !== "") && (
+                                    <View style={{ marginTop: 20 }}>
+                                        <Text style={ styles.sectionTitle }>Descrição</Text>
+                                        <MyHTML content={ place.description } />
+                                    </View>
+                                )}
+                            </Card>
+                        )}
 
                         <View style={{ flex: 1, width: width, marginLeft: -10 }}>
                             <ScrollView horizontal={ true } showsHorizontalScrollIndicator={ false }>
@@ -168,10 +177,12 @@ class Single extends Component {
                             </ScrollView>
                         </View>
 
-                        <Card onPress={ () => Actions.circuitList({ circuitID: place.circuit_id }) } style={{ flexDirection: "row", elevation: 2, paddingVertical: 20, alignItems: "center", justifyContent: "center", backgroundColor: "#FFF" }}>
-                            <Text style={ styles.cta }>Ver mais lugares do { place.circuit_name }</Text>
-                            <Icon name="arrow-right" size={ 17 } color="#666"/>
-                        </Card>
+                        {(typeof place.circuit_name !== "undefined" && place.circuit_name !== "") && (
+                            <Card onPress={ () => Actions.circuitList({ circuitID: place.circuit_id }) } style={{ flexDirection: "row", elevation: 2, paddingVertical: 20, alignItems: "center", justifyContent: "center", backgroundColor: "#FFF" }}>
+                                <Text style={ styles.cta }>Ver mais lugares do { place.circuit_name }</Text>
+                                <Icon name="arrow-right" size={ 17 } color="#666"/>
+                            </Card>
+                        )}
                     </View>
                 </View>
             </ScrollView>
@@ -265,7 +276,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "space-around",
         alignItems: "center",
         paddingVertical: 10
     },

@@ -48,7 +48,7 @@ export default class Button extends Component {
                 ) : (
                     <View style={ styles.content }>
                         <Text style={ styles.cardTitle }>{ title }</Text>
-                        <Text numberOfLines={ 1 } style={ styles.cardTextContent }>{ subtitle }</Text>
+                        <Text numberOfLines={ 1 } style={ styles.cardTextContent }>{ (subtitle == "...") ? " " : subtitle }</Text>
                     </View>
                 )}
             </TouchableOpacity>

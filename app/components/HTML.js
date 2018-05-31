@@ -19,9 +19,11 @@ export default class MyHTML extends Component {
     render() {
         const { content } = this.props;
         const pStyle = {
-            fontSize: 15,
+            fontSize: 16,
             color: "#666",
-            fontFamily: "OpenSans-Regular"
+            textAlign: "justify",
+            fontFamily: "OpenSans-Regular",
+            marginTop: 5
         }
 
         return <HTML html={ content } tagsStyles={{ p: pStyle }} />

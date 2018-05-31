@@ -28,7 +28,8 @@ class RolezinhoFull extends Component {
         this.changeLines = this.changeLines.bind(this);
 
         this.state = {
-            numberOfLines: 1
+            numberOfLines: 1,
+            pause: false
         }
     }
 
@@ -73,6 +74,9 @@ class RolezinhoFull extends Component {
 
         return (
             <ModalSelector
+                onOpen={ () => this.setState({ pause: true }) }
+                onClose={ () => this.setState({ pause: false }) }
+
                 selectStyle={{ borderWidth: 0 }}
                 data={ data }
                 initValue={ <SimpleIcons name="options-vertical" size={ 22 } color="#FFF"/> }
@@ -92,12 +96,12 @@ class RolezinhoFull extends Component {
 
     render() {
         const { media, user, text } = this.props.rolezinho;
-        const { numberOfLines } = this.state;
+        const { numberOfLines, pause } = this.state;
 
         return (
             <View style={ styles.container }>
                 <StatusBar animated showHideTransition="slide" backgroundColor="#000"  barStyle="light-content"/>
-                <SlideLoader/>
+                <SlideLoader pause={ pause }/>
                 <View style={ styles.topBar }>
                     { this.renderOptions() }
                     <TouchableOpacity hitSlop={ hitSlop } onPress={ () => Actions.pop() }>
