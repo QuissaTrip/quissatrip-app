@@ -37,6 +37,19 @@ class Search extends Component {
         )
     }
 
+    componentWillMount() {
+        const { filters } = this.props;
+        let canSearch = false;
+        if (filters.length > 0) {
+            for (let key in filters) {
+                if (filters[key] !== null)
+                    canSearch = true
+            }
+        }
+        if (canSearch)
+            this.props.searchOnAPI(query);
+    }
+
     render() {
         const { search } = this.props;
 
@@ -77,6 +90,7 @@ class Search extends Component {
 mapStateToProps = (state) => {
     return {
         search: state.search.search,
+        filters: state.search.filters,
     }
 }
 

@@ -8,15 +8,15 @@ import {
     ScrollView,
     Dimensions,
     TouchableOpacity,
-}                                    from 'react-native';
-import { connect }                   from 'react-redux';
-import { Actions }                   from 'react-native-router-flux';
-import DateTimePicker                from 'react-native-modal-datetime-picker';
-import CheckBox                      from 'react-native-check-box';
-import SimpleIcons                   from 'react-native-vector-icons/SimpleLineIcons';
-import EvilIcons                     from 'react-native-vector-icons/EvilIcons';
-import { searchOnAPI }               from '../../actions/search';
-import { Card, NavBar, SearchInput } from '../../components/';
+}                                       from 'react-native';
+import { connect }                      from 'react-redux';
+import { Actions }                      from 'react-native-router-flux';
+import DateTimePicker                   from 'react-native-modal-datetime-picker';
+import CheckBox                         from 'react-native-check-box';
+import SimpleIcons                      from 'react-native-vector-icons/SimpleLineIcons';
+import EvilIcons                        from 'react-native-vector-icons/EvilIcons';
+import { setType, setCircuit, setTime, searchOnAPI } from '../../actions/search';
+import { ButtonOutline, NavBar }        from '../../components/';
 
 const { height, width } = Dimensions.get('window');
 const iconSize = 30;
@@ -26,17 +26,23 @@ const unChecked = <Image source={ require("../../../assets/unchecked.png") } sty
 class Filters extends Component {
     constructor(props) {
         super(props);
+        this.applyFilters = this.applyFilters.bind(this);
+
+        const { filters } = this.props;
 
         this.state = {
             showClosePicker: false,
             showOpenPicker: false,
-            filters: {
-                type: null, // ["is_place", "is_commerce", "is_event"]
-                circuit: null, // circuit_id
-                open: null, //[14-51]
-                close: null
-            }
+            type: filters.type,
+            circuit: filters.circuit_id,
+            open: filters.open,
+            close: filters.close
         }
+    }
+
+    applyFilters = () => {
+        this.props.searchOnAPI(this.props.query);
+        Actions.pop();
     }
 
     formatTime = (date) => {
@@ -53,7 +59,7 @@ class Filters extends Component {
         return (
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center", width: "50%" }}>
                 <CheckBox
-                    onClick={ () => this.setState({ type: (type == name) ? null : name }) }
+                    onClick={ () => this.handleInputs("type", (type == name) ? null : name) }
                     isChecked={(type == name)}
                     checkedImage={ checked }
                     unCheckedImage={ unChecked }
@@ -68,7 +74,7 @@ class Filters extends Component {
         return (
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center", width: "50%" }}>
                 <CheckBox
-                    onClick={ () => this.setState({ circuit: (circuit == id) ? null : id }) }
+                    onClick={ () => this.handleInputs("circuit", (circuit == id) ? null : id) }
                     isChecked={(circuit == id)}
                     checkedImage={ checked }
                     unCheckedImage={ unChecked }
@@ -78,11 +84,27 @@ class Filters extends Component {
         )
     }
 
-    render() {
-        const { filters } = this.props;
-        const { showOpenPicker, showClosePicker } = this.state;
+    handleInputs = (type, data) => {
+        if(type == "type") {
+            this.setState({ type: data });
+            this.props.setType(data);
+        }
+        if (type == "circuit") {
+            this.setState({ circuit: data });
+            this.props.setCircuit(data);
+        }
+        if (type == "time") {
+            this.setState(data);
 
-        console.log(showOpenPicker, showClosePicker);
+            if (typeof data.open !== "undefined")
+                this.props.setTime("open", data.open);
+            else
+                this.props.setTime("close", data.close);
+        }
+    }
+
+    render() {
+        const { showOpenPicker, showClosePicker, open, close } = this.state;
 
         return (
             <View style={{ flex: 1 }}>
@@ -92,11 +114,11 @@ class Filters extends Component {
                         <View>
                             <Text style={ styles.title }>Tipo de conteúdo da pesquisa</Text>
                             <View style={ styles.typeContainer }>
-                                { this.renderCheckbox("is_place", "Ponto Turístico") }
-                                { this.renderCheckbox("is_commerce", "Comércio") }
+                                { this.renderCheckbox("place", "Ponto Turístico") }
+                                { this.renderCheckbox("commerce", "Comércio") }
                             </View>
                             <View style={ styles.typeContainer }>
-                                { this.renderCheckbox("is_event", "Evento") }
+                                { this.renderCheckbox("event", "Evento") }
                             </View>
                         </View>
 
@@ -109,32 +131,24 @@ class Filters extends Component {
                                 <DateTimePicker
                                     mode="time"
                                     isVisible={ showOpenPicker }
-                                    onConfirm={(data) => {
-                                        let _filters = filters;
-                                        _filters.open = this.formatTime(data);
-                                        this.setState({ filters: _filters, showOpenPicker: false });
-                                    }}
-                                    onCancel={() => this.setState({ showOpenPicker: false })}
+                                    onConfirm={(data) => this.handleInputs("time", { open: this.formatTime(data), showOpenPicker: false }) }
+                                    onCancel={() => this.handleInputs("time", { open: null, showOpenPicker: false }) }
                                 />
                                 <TouchableOpacity onPress={ () => this.setState({ showOpenPicker: true }) }>
                                     <Text style={ styles.text }>Início</Text>
-                                    <Text style={ styles.time }>{ (filters.open == null) ? "00:00" : filters.open }</Text>
+                                    <Text style={ styles.time }>{ (open == null) ? "--:--" : open }</Text>
                                 </TouchableOpacity>
 
                                 {/* Close Time */}
                                 <DateTimePicker
                                     mode="time"
                                     isVisible={ showClosePicker }
-                                    onConfirm={(data) => {
-                                        let _filters = filters;
-                                        _filters.close = this.formatTime(data);
-                                        this.setState({ filters: _filters, showClosePicker: false });
-                                    }}
-                                    onCancel={() => this.setState({ showClosePicker: false })}
+                                    onConfirm={(data) => this.handleInputs("time", { close: this.formatTime(data), showClosePicker: false }) }
+                                    onCancel={() => this.handleInputs("time", { close: null, showOpenPicker: false }) }
                                 />
                                 <TouchableOpacity onPress={ () => this.setState({ showClosePicker: true }) }>
                                     <Text style={ styles.text }>Fim</Text>
-                                    <Text style={ styles.time }>{ (filters.close == null) ? "00:00" : filters.close }</Text>
+                                    <Text style={ styles.time }>{ (close == null) ? "--:--" : close }</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -153,6 +167,10 @@ class Filters extends Component {
                         </View>
                     </View>
                 </ScrollView>
+
+                <ButtonOutline activeOpacity={ 0.85 } onPress={ this.applyFilters } style={ styles.button } color="#08c9c6">
+                    <Text style={ styles.buttonText }>Aplicar Filtros</Text>
+                </ButtonOutline>
             </View>
         )
     }
@@ -164,7 +182,7 @@ mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Filters);
+export default connect(mapStateToProps, { setType, setCircuit, setTime, searchOnAPI })(Filters);
 
 const styles = StyleSheet.create({
     container: {
@@ -200,7 +218,7 @@ const styles = StyleSheet.create({
     },
     time: {
         fontFamily: "OpenSans-Regular",
-        fontSize: 16,
+        fontSize: 17,
         color: "rgba(255,255,255,0.8)",
         backgroundColor: "rgba(0,0,0,0.3)",
         padding: 10,
@@ -215,5 +233,20 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "rgba(0,0,0,0.6)",
         marginBottom: 7,
-    }
+    },
+
+    button: {
+        alignSelf: "center",
+        width: "90%",
+        zIndex: 100,
+        marginVertical: 10,
+        backgroundColor: "#08c9c6",
+        elevation: 1
+    },
+
+    buttonText: {
+        color: "#FFF",
+        fontFamily: "OpenSans-Regular",
+        fontSize: 16
+    },
 });

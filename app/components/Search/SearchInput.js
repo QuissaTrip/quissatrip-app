@@ -55,7 +55,7 @@ class SearchInput extends Component {
 
         return (
             <View style={ styles.inputContainer }>
-                <TouchableOpacity onPress={() => Actions.filters()} style={ styles.inputIcon }>
+                <TouchableOpacity onPress={() => Actions.filters({ query: query })} style={ styles.inputIcon }>
                     <SimpleIcons name="equalizer" size={ 20 } color="#666"/>
                 </TouchableOpacity>
                 <TextInput
