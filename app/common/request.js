@@ -21,6 +21,7 @@ const request = function(options) {
         console.debug(error);
         return false;
     }
+
     return client(options).then(onSuccess).catch(options.onError);
 }
 

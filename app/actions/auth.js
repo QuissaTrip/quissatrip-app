@@ -64,6 +64,7 @@ export function updateProfile(user) {
                 'Content-Type': 'multipart/form-data; charset=utf-8; boundary="another cool boundary"',
             }
         }).then((response) => {
+            console.log(response);
             if (response.status) {
                 toastBottom("Seu perfil foi atualizado com sucesso!");
                 dispatch({ type: c.FETCH_USER, user: response.user });

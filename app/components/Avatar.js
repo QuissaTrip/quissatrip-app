@@ -14,9 +14,10 @@ const baseAvatar = BASE_URL + "/files/user.png";
 export default class Avatar extends Component {
     constructor(props) {
         super(props);
+        const { avatar } = this.props;
 
         this.state = {
-            avatar: this.props.avatar
+            avatar: (avatar !== null) ? avatar : baseAvatar
         }
     }
 
@@ -29,7 +30,7 @@ export default class Avatar extends Component {
     render() {
         const { avatar } = this.state;
         const { size, style, containerStyle } = this.props;
-        
+
         return (
             <View style={[ styles.avatarContainer, { height: size, width: size }, containerStyle]}>
                 <Image

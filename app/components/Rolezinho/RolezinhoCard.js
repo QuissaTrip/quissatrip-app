@@ -6,9 +6,10 @@ import {
     Image,
     Dimensions,
     TouchableOpacity
-}                  from 'react-native';
-import { Actions } from 'react-native-router-flux';
-import { connect } from 'react-redux';
+}                   from 'react-native';
+import { Actions }  from 'react-native-router-flux';
+import { connect }  from 'react-redux';
+import Avatar       from '../Avatar';
 
 const { height, width } = Dimensions.get('window');
 const radius = 8;
@@ -29,9 +30,9 @@ class RolezinhoCard extends Component {
             <TouchableOpacity onPress={ this.openRole.bind(this) } activeOpacity={ 0.9 } style={ styles.container }>
                 <Image source={{ uri: media }} style={ styles.media }/>
                 <View style={ styles.opacity }/>
-                <View style={ styles.avatarContainer }>
-                    <Image source={{ uri: user.avatar }} style={ styles.avatar }/>
-                </View>
+
+                <Avatar avatar={ user.avatar } size={ 51.5 } containerStyle={ styles.avatarContainer }/>
+
                 <View style={ styles.content }>
                     <Text numberOfLines={ 1 } style={ styles.text }>{ (text == "") ? " " : text }</Text>
                 </View>
@@ -93,9 +94,4 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
-        avatar: {
-            width: 45,
-            height: 45,
-            borderRadius: (45/2),
-        },
 });
