@@ -1,6 +1,6 @@
 import axios from 'axios';
+import { BASE_URL } from './constants';
 
-const BASE_URL = "http://lucascraveiropaes.com/app";
 const client = axios.create({
     baseURL: BASE_URL,
     headers: {

@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         height: 80,
         paddingTop: 24,
         elevation: 3,
-        backgroundColor: "#08c9c6",
+        backgroundColor: "#13ad6d",
     },
     navBarTransparent: {
         backgroundColor: "transparent",

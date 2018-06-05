@@ -1,6 +1,7 @@
 // GENERAL
 export const BASE_URL = 'http://lucascraveiropaes.com/app';
-export const CIRCUITS = 'CIRCUITS';
+export const CATEGORIES = 'CATEGORIES';
+export const CATEGORY_LIST = 'CATEGORY_LIST';
 export const FETCH_EVENTS = 'FETCH_EVENTS';
 
 // USER
@@ -23,7 +24,7 @@ export const FETCH_SEARCH = 'FETCH_SEARCH';
 export const SET_FILTER_TYPE = 'SET_FILTER_TYPE';
 export const SET_FILTER_OPEN = 'SET_FILTER_OPEN';
 export const SET_FILTER_CLOSE = 'SET_FILTER_CLOSE';
-export const SET_FILTER_CIRCUIT = 'SET_FILTER_CIRCUIT';
+export const SET_FILTER_CATEGORY = 'SET_FILTER_CATEGORY';
 
 // ROLEZINHOS
 export const FETCH_ROLEZINHOS = 'FETCH_ROLEZINHOS';

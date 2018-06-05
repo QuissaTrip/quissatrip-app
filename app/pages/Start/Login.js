@@ -87,7 +87,7 @@ class Login extends Component {
                             />
                             <View style={ styles.divider }/>
                         </View>
-                        <ButtonOutline activeOpacity={ 0.85 } onPress={ this.login } style={ styles.button } color="#08c9c6">
+                        <ButtonOutline activeOpacity={ 0.85 } onPress={ this.login } style={ styles.button } color="#13ad6d">
                             <Text style={ styles.buttonText }>Entrar</Text>
                         </ButtonOutline>
                     </View>
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     bottomBox: {
         width: "200%",
         height: 200,
-        backgroundColor: "#08c9c6",
+        backgroundColor: "#13ad6d",
         position: "absolute",
         bottom: -150,
         right: -100,

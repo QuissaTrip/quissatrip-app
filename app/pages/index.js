@@ -9,8 +9,8 @@ import UserProfile          from './UserProfile.js';
 import WhereToGo            from './WhereToGo.js';
 import MoreApps             from './MoreApps.js';
 
-import CircuitList          from './Circuit/CircuitList.js';
-import Circuits             from './Circuit/Circuits.js';
+import Categories           from './Category/Categories.js';
+import CategoryList         from './Category/CategoryList.js';
 
 import Login                from './Start/Login.js';
 import Register             from './Start/Register.js';
@@ -24,6 +24,8 @@ import CommerceList         from './Commerces/CommerceList.js';
 import Search               from './Search/Search.js';
 import Filters              from './Search/Filters.js';
 
+import CityInfo             from './PrincipalTabs/CityInfo.js';
+
 module.exports = {
     QuissaTrip,
     Principal,
@@ -35,8 +37,10 @@ module.exports = {
     RolezinhoFull,
     ImageFullScreen,
 
-    CircuitList,
-    Circuits,
+    CityInfo,
+
+    Categories,
+    CategoryList,
 
     WelcomePage,
     Login,

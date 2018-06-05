@@ -14,13 +14,22 @@ export function getEntity(id = null) {
     }
 }
 
-export function getCircuits() {
+export function getCategories(id = null) {
+    let url = "/categories";
+    if (id !== null) {
+        url = "/places?category=" + id;
+    }
+
     return (dispatch) => {
         request({
-            url: "/circuits",
+            url: url,
             method: "GET",
-        }).then((circuits) => {
-            dispatch({ type: c.CIRCUITS, circuits: circuits })
+        }).then((response) => {
+            if (id !== null) {
+                dispatch({ type: c.CATEGORY_LIST, categoryList: response })
+            } else {
+                dispatch({ type: c.CATEGORIES, categories: response })
+            }
         });
     }
 }

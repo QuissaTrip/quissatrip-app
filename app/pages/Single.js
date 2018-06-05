@@ -177,9 +177,9 @@ class Single extends Component {
                             </ScrollView>
                         </View>
 
-                        {(typeof place.circuit_name !== "undefined" && place.circuit_name !== "") && (
-                            <Card onPress={ () => Actions.circuitList({ circuitID: place.circuit_id }) } style={{ flexDirection: "row", elevation: 2, paddingVertical: 20, alignItems: "center", justifyContent: "center", backgroundColor: "#FFF" }}>
-                                <Text style={ styles.cta }>Ver mais lugares do { place.circuit_name }</Text>
+                        {(typeof place.category_name !== "undefined" && place.category_name !== "") && (
+                            <Card onPress={ () => Actions.categoryList({ categoryID: place.category_id, title: place.category_name }) } style={{ flexDirection: "row", elevation: 2, paddingVertical: 20, alignItems: "center", justifyContent: "center", backgroundColor: "#FFF" }}>
+                                <Text style={ styles.cta }>Ver mais { place.category_name }</Text>
                                 <Icon name="arrow-right" size={ 17 } color="#666"/>
                             </Card>
                         )}

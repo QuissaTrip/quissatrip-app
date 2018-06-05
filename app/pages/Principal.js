@@ -31,25 +31,25 @@ class Principal extends Component {
         {
           key: 'events',
           icon: 'calendar',
-          barColor: '#08c9c6',
+          barColor: '#13ad6d',
           pressColor: 'rgba(0, 0, 0, 0.05)'
         },
         {
           key: 'cityInfo',
           icon: 'home',
-          barColor: '#08c9c6',
+          barColor: '#13ad6d',
           pressColor: 'rgba(0, 0, 0, 0.05)'
         },
         {
           key: 'rolezinho',
           icon: 'camera',
-          barColor: '#08c9c6',
+          barColor: '#13ad6d',
           pressColor: 'rgba(0, 0, 0, 0.05)'
         },
         {
           key: 'menu',
           icon: 'navicon',
-          barColor: '#08c9c6',
+          barColor: '#13ad6d',
           pressColor: 'rgba(0, 0, 0, 0.05)'
         }
     ]

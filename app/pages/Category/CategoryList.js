@@ -5,42 +5,42 @@ import {
     StyleSheet,
     FlatList,
     ScrollView
-}                       from 'react-native';
-import { Actions }      from 'react-native-router-flux';
-import { connect }      from 'react-redux';
-import { CardList }     from '../../loaders';
-import { NavBar, Card } from '../../components/';
-import { getCircuits }  from '../../actions';
+}                           from 'react-native';
+import { Actions }          from 'react-native-router-flux';
+import { connect }          from 'react-redux';
+import { CardList }         from '../../loaders';
+import { NavBar, Card }     from '../../components/';
+import { getCategories }    from '../../actions';
 
-class Circuits extends Component {
+class CategoryList extends Component {
     constructor(props) {
         super(props);
     }
 
     componentWillMount() {
-        this.props.getCircuits();
+        this.props.getCategories(this.props.categoryID);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return this.props.circuits !== nextProps.circuits;
+        return this.props.categoryList !== nextProps.categoryList;
     }
 
     render() {
-        const { circuits } = this.props;
+        const { categoryList, title } = this.props;
 
         return (
             <View style={{ flex: 1 }}>
-                <NavBar page="Circuitos" />
+                <NavBar page={ title } />
                 <ScrollView style={{ flex: 1 }}>
-                    {(typeof circuits == "undefined" || circuits.length == 0) ? (
+                    {(typeof categoryList == "undefined" || categoryList.length == 0) ? (
                         <CardList/>
                     ) : (
                         <FlatList
-                            data={ circuits }
+                            data={ categoryList }
                             keyExtractor={(item, index) => "circuit_list_" + index}
                             renderItem={ ({ item }) =>
                                 <Card
-                                    onPress={ () => Actions.circuitList({ circuitID: item.id }) }
+                                    onPress={ () => Actions.single({ entityID: item.id }) }
                                     image={ item.image }
                                     style={{ marginHorizontal: 10, height: 220 }}
                                     title={ item.name }
@@ -57,11 +57,11 @@ class Circuits extends Component {
 
 function mapStateToProps(state, props) {
     return {
-        circuits: state.general.circuits
+        categoryList: state.categories.categoryList
     }
 }
 
-export default connect(mapStateToProps, { getCircuits })(Circuits);
+export default connect(mapStateToProps, { getCategories })(CategoryList);
 
 const styles = StyleSheet.create({
     container: {

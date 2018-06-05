@@ -4,6 +4,7 @@ import {
     View,
     Image,
     Dimensions,
+    Text,
     TouchableOpacity,
     StatusBar
 }                   from 'react-native';
@@ -36,6 +37,7 @@ export default class ImageFullScreen extends Component {
                     style={ styles.image }
                     source={ image }
                 />
+                <Text style={ styles.text }>Imagens cedidas pela prefeitura</Text>
             </View>
         )
     }
@@ -58,5 +60,11 @@ const styles = StyleSheet.create({
         right: 0,
         padding: 10,
         zIndex: 10,
+    },
+    text: {
+        color: "rgba(255, 255, 255, 0.7)",
+        position: "absolute",
+        bottom: 20,
+        fontSize: 13
     }
 });

@@ -111,14 +111,7 @@ class MenuPage extends Component {
 
                         <View style={ styles.list }>
                             <View style={{ marginBottom: 50 }}>
-                                <TouchableOpacity onPress={ () => Actions.circuits() }>
-                                    <View style={ styles.item }>
-                                        <SimpleIcons name="map" size={ 20 } color={ itemColor } style={{ marginRight: 5, marginLeft: 4 }}/>
-                                        <Text style={ styles.text }>Circuitos Turísticos</Text>
-                                    </View>
-                                </TouchableOpacity>
-
-                                <TouchableOpacity onPress={ () => Actions.commerceCategories() }>
+                                <TouchableOpacity onPress={ () => Actions.commerceList({ categoryID: 3, titlePage: "Serviços" }) }>
                                     <View style={ styles.item }>
                                         <EvilIcons name="cart" size={ 30 } color={ itemColor }/>
                                         <Text style={ styles.text }>Serviços</Text>
@@ -132,7 +125,7 @@ class MenuPage extends Component {
                                     </View>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity onPress={ () => Actions.whereToGo() }>
+                                <TouchableOpacity onPress={ () => Actions.categories() }>
                                     <View style={ styles.item }>
                                         <SimpleIcons name="directions" size={ 20 } color={ itemColor } style={{ marginRight: 5, marginLeft: 4 }}/>
                                         <Text style={ styles.text }>O que visitar</Text>
@@ -162,10 +155,17 @@ class MenuPage extends Component {
                                     </TouchableOpacity>
                                 )}
 
+                                <TouchableOpacity onPress={ () => Actions.cityInfo({ fullText: true }) }>
+                                    <View style={ styles.item }>
+                                        <EvilIcons name="question" size={ 30 } color={ itemColor }/>
+                                        <Text style={ styles.text }>Sobre a cidade</Text>
+                                    </View>
+                                </TouchableOpacity>
+
                                 <TouchableOpacity onPress={ () => Actions.moreApps() }>
                                     <View style={ styles.item }>
                                         <Image source={ require("../../assets/plus.png") } style={{ height: 20, width: 20, marginRight: 4, marginLeft: 7 }} />
-                                        <Text style={ styles.text }>Veja mais cidades</Text>
+                                        <Text style={ styles.text }>Conheça a região</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>
@@ -246,8 +246,10 @@ const styles = StyleSheet.create({
     },
     list: {
         flex: 1,
+        minHeight: height-140,
+        maxHeight: "100%",
         justifyContent: "space-between",
-        paddingBottom: 10
+        paddingBottom: 0
     },
         item: {
             flexDirection: "row",

@@ -4,7 +4,7 @@ let initialState = {
     search: null,
     filters: {
         type: null, // ["place", "commerce", "event"]
-        circuit_id: null, // circuit_id
+        category: null, // category_id
         open: null, //[14-51]
         close: null
     },
@@ -19,9 +19,9 @@ export default function(state = initialState, action) {
                 search
             }
         }
-        case c.SET_FILTER_CIRCUIT: {
+        case c.SET_FILTER_CATEGORY: {
             let filters = state.filters;
-            filters.circuit_id = action.circuit_id;
+            filters.category = action.category_id;
 
             return {
                 ...state,

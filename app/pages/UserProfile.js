@@ -112,7 +112,7 @@ class UserProfile extends Component {
                         { this.renderInput("password", "Senha") }
                         { this.renderInput("cpf", "CPF") }
 
-                        <ButtonOutline activeOpacity={ 0.85 } onPress={ this.update } style={ styles.button } color="#08c9c6">
+                        <ButtonOutline activeOpacity={ 0.85 } onPress={ this.update } style={ styles.button } color="#13ad6d">
                             <Text style={ styles.buttonText }>Atualizar</Text>
                         </ButtonOutline>
                     </View>

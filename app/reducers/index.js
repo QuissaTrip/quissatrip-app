@@ -5,6 +5,7 @@ import entities             from './entities';
 import rolezinho            from './rolezinho';
 import commerce             from './commerce';
 import search               from './search';
+import categories           from './categories';
 
 export default combineReducers({
     general,
@@ -12,5 +13,6 @@ export default combineReducers({
     entities,
     rolezinho,
     commerce,
-    search
+    search,
+    categories
 })

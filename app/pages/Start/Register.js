@@ -144,7 +144,7 @@ class Register extends Component {
             <View style={{ backgroundColor: "#FFF" }}>
                 <NavBar
                     transparent
-                    style={{ backgroundColor: "#08c9c6" }}
+                    style={{ backgroundColor: "#13ad6d" }}
                     page="Cadastrar"
                     showRightIcon={ false }
                     color="#FFF"
@@ -162,7 +162,7 @@ class Register extends Component {
                                 { this.renderInput("cpf", "CPF") }
                                 <View style={ styles.divider }/>
                             </View>
-                            <ButtonOutline activeOpacity={ 0.85 } onPress={ this.register } style={ styles.button } color="#08c9c6">
+                            <ButtonOutline activeOpacity={ 0.85 } onPress={ this.register } style={ styles.button } color="#13ad6d">
                                 <Text style={ styles.buttonText }>Cadastrar</Text>
                             </ButtonOutline>
                         </View>
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     bottomBox: {
         width: "200%",
         height: 200,
-        backgroundColor: "#08c9c6",
+        backgroundColor: "#13ad6d",
         position: "absolute",
         zIndex: 0,
         bottom: -190,

@@ -15,8 +15,14 @@ import DateTimePicker                   from 'react-native-modal-datetime-picker
 import CheckBox                         from 'react-native-check-box';
 import SimpleIcons                      from 'react-native-vector-icons/SimpleLineIcons';
 import EvilIcons                        from 'react-native-vector-icons/EvilIcons';
-import { setType, setCircuit, setTime, searchOnAPI } from '../../actions/search';
-import { ButtonOutline, NavBar }        from '../../components/';
+import { ButtonOutline,NavBar,Loader }  from '../../components/';
+import { getCategories }                from '../../actions';
+import {
+    setType,
+    setCategory,
+    setTime,
+    searchOnAPI
+} from '../../actions/search';
 
 const { height, width } = Dimensions.get('window');
 const iconSize = 30;
@@ -34,10 +40,14 @@ class Filters extends Component {
             showClosePicker: false,
             showOpenPicker: false,
             type: filters.type,
-            circuit: filters.circuit_id,
+            category: filters.category_id,
             open: filters.open,
             close: filters.close
         }
+    }
+
+    componentWillMount() {
+        this.props.getCategories();
     }
 
     applyFilters = () => {
@@ -70,12 +80,12 @@ class Filters extends Component {
     }
 
     renderCircuits = (id, text) => {
-        const { circuit } = this.state;
+        const { category } = this.state;
         return (
             <View style={{ flex: 1, flexDirection: "row", alignItems: "center", width: "50%" }}>
                 <CheckBox
-                    onClick={ () => this.handleInputs("circuit", (circuit == id) ? null : id) }
-                    isChecked={(circuit == id)}
+                    onClick={ () => this.handleInputs("category", (category == id) ? null : id) }
+                    isChecked={(category == id)}
                     checkedImage={ checked }
                     unCheckedImage={ unChecked }
                 />
@@ -89,9 +99,9 @@ class Filters extends Component {
             this.setState({ type: data });
             this.props.setType(data);
         }
-        if (type == "circuit") {
-            this.setState({ circuit: data });
-            this.props.setCircuit(data);
+        if (type == "category") {
+            this.setState({ category: data });
+            this.props.setCategory(data);
         }
         if (type == "time") {
             this.setState(data);
@@ -103,74 +113,96 @@ class Filters extends Component {
         }
     }
 
+    renderCategories = () => {
+        const { categories } = this.props;
+        let content = [];
+
+        for (var i = 0; i < categories.length; i++) {
+            content.push(
+                <View style={ styles.typeContainer } key={ "category_item_option_" + i }>
+                    {(typeof categories[i] !== "undefined") && (
+                        this.renderCircuits(categories[i].id, categories[i].name)
+                    )}
+                    {(typeof categories[i+1] !== "undefined") && (
+                        this.renderCircuits(categories[i+1].id, categories[i+1].name)
+                    )}
+                </View>
+            );
+            i++;
+        }
+
+        return content
+    }
+
     render() {
         const { showOpenPicker, showClosePicker, open, close } = this.state;
+        const { categories } = this.props;
 
         return (
             <View style={{ flex: 1 }}>
                 <NavBar page="Filtros" showRightIcon={ false }/>
-                <ScrollView style={{ backgroundColor: "#FFF", height: "100%" }}>
-                    <View style={ styles.container }>
-                        <View>
-                            <Text style={ styles.title }>Tipo de conteúdo da pesquisa</Text>
-                            <View style={ styles.typeContainer }>
-                                { this.renderCheckbox("place", "Ponto Turístico") }
-                                { this.renderCheckbox("commerce", "Comércio") }
-                            </View>
-                            <View style={ styles.typeContainer }>
-                                { this.renderCheckbox("event", "Evento") }
-                            </View>
-                        </View>
+                {(categories.length < 1) ? (
+                    <Loader/>
+                ) : (
+                    <View style={{ flex: 1 }}>
+                        <ScrollView style={{ backgroundColor: "#FFF", height: "100%" }}>
+                            <View style={ styles.container }>
+                                <View>
+                                    <Text style={ styles.title }>Tipo de conteúdo da pesquisa</Text>
+                                    <View style={ styles.typeContainer }>
+                                        { this.renderCheckbox("place", "Ponto Turístico") }
+                                        { this.renderCheckbox("commerce", "Comércio") }
+                                    </View>
+                                    <View style={ styles.typeContainer }>
+                                        { this.renderCheckbox("event", "Evento") }
+                                    </View>
+                                </View>
 
-                        <View style={ styles.divider }/>
+                                <View style={ styles.divider }/>
 
-                        <View>
-                            <Text style={[ styles.title, { marginVertical: 25, marginBottom: 25 }]}>Horários</Text>
-                            <View style={[ styles.typeContainer, { marginTop: 0 }]}>
-                                {/* Open Time */}
-                                <DateTimePicker
-                                    mode="time"
-                                    isVisible={ showOpenPicker }
-                                    onConfirm={(data) => this.handleInputs("time", { open: this.formatTime(data), showOpenPicker: false }) }
-                                    onCancel={() => this.handleInputs("time", { open: null, showOpenPicker: false }) }
-                                />
-                                <TouchableOpacity onPress={ () => this.setState({ showOpenPicker: true }) }>
-                                    <Text style={ styles.text }>Início</Text>
-                                    <Text style={ styles.time }>{ (open == null) ? "--:--" : open }</Text>
-                                </TouchableOpacity>
+                                <View>
+                                    <Text style={[ styles.title, { marginVertical: 25, marginBottom: 25 }]}>Horários</Text>
+                                    <View style={[ styles.typeContainer, { marginTop: 0 }]}>
+                                        {/* Open Time */}
+                                        <DateTimePicker
+                                            mode="time"
+                                            isVisible={ showOpenPicker }
+                                            onConfirm={(data) => this.handleInputs("time", { open: this.formatTime(data), showOpenPicker: false }) }
+                                            onCancel={() => this.handleInputs("time", { open: null, showOpenPicker: false }) }
+                                        />
+                                        <TouchableOpacity onPress={ () => this.setState({ showOpenPicker: true }) }>
+                                            <Text style={ styles.text }>Início</Text>
+                                            <Text style={ styles.time }>{ (open == null) ? "--:--" : open }</Text>
+                                        </TouchableOpacity>
 
-                                {/* Close Time */}
-                                <DateTimePicker
-                                    mode="time"
-                                    isVisible={ showClosePicker }
-                                    onConfirm={(data) => this.handleInputs("time", { close: this.formatTime(data), showClosePicker: false }) }
-                                    onCancel={() => this.handleInputs("time", { close: null, showOpenPicker: false }) }
-                                />
-                                <TouchableOpacity onPress={ () => this.setState({ showClosePicker: true }) }>
-                                    <Text style={ styles.text }>Fim</Text>
-                                    <Text style={ styles.time }>{ (close == null) ? "--:--" : close }</Text>
-                                </TouchableOpacity>
+                                        {/* Close Time */}
+                                        <DateTimePicker
+                                            mode="time"
+                                            isVisible={ showClosePicker }
+                                            onConfirm={(data) => this.handleInputs("time", { close: this.formatTime(data), showClosePicker: false }) }
+                                            onCancel={() => this.handleInputs("time", { close: null, showOpenPicker: false }) }
+                                        />
+                                        <TouchableOpacity onPress={ () => this.setState({ showClosePicker: true }) }>
+                                            <Text style={ styles.text }>Fim</Text>
+                                            <Text style={ styles.time }>{ (close == null) ? "--:--" : close }</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+
+                                <View style={ styles.divider }/>
+
+                                <View style={{ marginTop: 10, paddingBottom: 10 }}>
+                                    <Text style={ styles.title }>Categorias</Text>
+                                    { this.renderCategories() }
+                                </View>
                             </View>
-                        </View>
+                        </ScrollView>
 
-                        <View style={ styles.divider }/>
-
-                        <View style={{ marginTop: 10, paddingBottom: 10 }}>
-                            <Text style={ styles.title }>Circuitos Turísticos</Text>
-                            <View style={ styles.typeContainer }>
-                                { this.renderCircuits(1, "Étnico") }
-                                { this.renderCircuits(2, "Ecológico") }
-                            </View>
-                            <View style={ styles.typeContainer }>
-                                { this.renderCircuits(3, "Histórico") }
-                            </View>
-                        </View>
+                        <ButtonOutline activeOpacity={ 0.85 } onPress={ this.applyFilters } style={ styles.button } color="#13ad6d">
+                            <Text style={ styles.buttonText }>Aplicar Filtros</Text>
+                        </ButtonOutline>
                     </View>
-                </ScrollView>
-
-                <ButtonOutline activeOpacity={ 0.85 } onPress={ this.applyFilters } style={ styles.button } color="#08c9c6">
-                    <Text style={ styles.buttonText }>Aplicar Filtros</Text>
-                </ButtonOutline>
+                )}
             </View>
         )
     }
@@ -179,10 +211,17 @@ class Filters extends Component {
 mapStateToProps = (state) => {
     return {
         filters: state.search.filters,
+        categories: state.categories.categories
     }
 }
 
-export default connect(mapStateToProps, { setType, setCircuit, setTime, searchOnAPI })(Filters);
+export default connect(mapStateToProps, {
+    setType,
+    setCategory,
+    setTime,
+    searchOnAPI,
+    getCategories
+})(Filters);
 
 const styles = StyleSheet.create({
     container: {
@@ -240,7 +279,7 @@ const styles = StyleSheet.create({
         width: "90%",
         zIndex: 100,
         marginVertical: 10,
-        backgroundColor: "#08c9c6",
+        backgroundColor: "#13ad6d",
         elevation: 1
     },
 

@@ -104,6 +104,7 @@ class RolezinhoFull extends Component {
                 <SlideLoader pause={ pause }/>
                 <View style={ styles.topBar }>
                     { this.renderOptions() }
+                    <Text style={{ color: "#FFF", fontSize: 19, width: "70%", textAlign: "center" }}>{ user.name }</Text>
                     <TouchableOpacity hitSlop={ hitSlop } onPress={ () => Actions.pop() }>
                         <EvilIcons name="close" size={ 37 } color="#FFF"/>
                     </TouchableOpacity>

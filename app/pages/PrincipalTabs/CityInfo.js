@@ -14,49 +14,69 @@ import { NavBar, MyHTML }   from '../../components/';
 
 const { height, width } = Dimensions.get('window');
 
-export default class Principal extends Component {
+export default class CityInfo extends Component {
     constructor(props) {
         super(props);
     }
 
-    render() {
-        const city = require("../../../assets/city/content.json");
+    renderImages = () => {
         const images = [
             require("../../../assets/city/1.jpg"),
             require("../../../assets/city/2.jpg"),
             require("../../../assets/city/3.jpg"),
             require("../../../assets/city/4.jpg"),
             require("../../../assets/city/5.jpg")
-        ]
+        ];
+
+        return (
+            <FlatList
+                horizontal={ true }
+                showsHorizontalScrollIndicator={ false }
+                data={ images }
+                keyExtractor={(item, index) => "welcome_images_" + index}
+                ItemSeparatorComponent={ () => <View style={{ margin: -4 }}/> }
+                renderItem={ ({ item, index }) =>
+                    <TouchableOpacity activeOpacity={ 0.85 } key={ "welcome_images_" + index } style={ styles.imageContainer } onPress={ () => Actions.imageFullScreen({ require: item }) }>
+                        <Image
+                            style={ styles.image }
+                            source={ item }
+                        />
+                    </TouchableOpacity>
+                }
+            />
+        )
+    }
+
+    render() {
+        const { fullText } = this.props;
+        const city = require("../../../assets/city/content.json");
         return (
             <View style={{ flex: 1 }}>
-                <NavBar page="QuissaTrip" showBackIcon={ false } />
+                <NavBar page="QuissaTrip" showBackIcon={(fullText == true)} />
                 <ScrollView style={{ flex: 1 }}>
                     <View style={ styles.container }>
-                        <Text style={ styles.welcome }>{ city.title }</Text>
-                        <Text style={ styles.subtitle }>{ city.subtitle }</Text>
+                        {(fullText == true) ? (
+                            <View style={{ flex: 1 }}>
+                                <Text style={ styles.welcome }>{ city.title }</Text>
+                                <Text style={ styles.subtitle }>Saiba mais sobre a história da cidade</Text>
+                            </View>
+                        ) : (
+                            <View style={{ flex: 1 }}>
+                                <Text style={ styles.welcome }>{ city.title }</Text>
+                                <Text style={ styles.subtitle }>{ city.subtitle }</Text>
+                            </View>
+                        )}
 
                         <View style={{ flex: 1, width: width, marginTop: 0 }}>
-
-                            <FlatList
-                                horizontal={ true }
-                                showsHorizontalScrollIndicator={ false }
-                                data={ images }
-                                keyExtractor={(item, index) => "welcome_images_" + index}
-                                ItemSeparatorComponent={ () => <View style={{ margin: -4 }}/> }
-                                renderItem={ ({ item, index }) =>
-                                    <TouchableOpacity activeOpacity={ 0.85 } key={ "welcome_images_" + index } style={ styles.imageContainer } onPress={ () => Actions.imageFullScreen({ require: item }) }>
-                                        <Image
-                                            style={ styles.image }
-                                            source={ item }
-                                        />
-                                    </TouchableOpacity>
-                                }
-                            />
-
+                            {(fullText !== true) && (
+                                this.renderImages()
+                            )}
                             <View style={{ padding: 20 }}>
-                                <MyHTML content={ city.text } />
+                                <MyHTML content={(fullText == true) ? city.text : city.simple } />
                             </View>
+                            {(fullText === true) && (
+                                this.renderImages()
+                            )}
                         </View>
                     </View>
                 </ScrollView>

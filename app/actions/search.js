@@ -2,9 +2,9 @@ import * as c       from "../common/constants";
 import request      from "../common/request";
 import { objToUrl } from "../common/helpers";
 
-export function setCircuit(circuit_id) {
+export function setCategory(category_id) {
     return (dispatch) => {
-        dispatch({ type: c.SET_FILTER_CIRCUIT, circuit_id: circuit_id })
+        dispatch({ type: c.SET_FILTER_CATEGORY, category_id: category_id })
     }
 }
 
