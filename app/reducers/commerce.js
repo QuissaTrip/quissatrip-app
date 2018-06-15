@@ -2,7 +2,7 @@ import * as c from "../common/constants";
 
 let initialState = {
     categories: [],
-    commerces: [],
+    commerces: {},
     commerce_single: null,
 };
 
@@ -16,7 +16,12 @@ export default function(state = initialState, action) {
             }
         }
         case c.FETCH_COMMERCES: {
-            const commerces = action.commerces;
+            let commerces = state.commerces;
+
+            if (typeof action.commerceID !== "undefined" && action.commerceID !== 0) {
+                commerces[action.commerceID] = action.commerces;
+            }
+
             return {
                 ...state,
                 commerces

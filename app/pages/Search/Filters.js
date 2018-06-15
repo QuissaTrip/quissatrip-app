@@ -276,11 +276,13 @@ const styles = StyleSheet.create({
 
     button: {
         alignSelf: "center",
-        width: "90%",
+        width: "100%",
         zIndex: 100,
-        marginVertical: 10,
+        marginVertical: 0,
+        paddingVertical: 15,
+        borderRadius: 0,
         backgroundColor: "#13ad6d",
-        elevation: 1
+        elevation: 3
     },
 
     buttonText: {

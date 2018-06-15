@@ -119,19 +119,23 @@ class Single extends Component {
                             <View style={{ justifyContent: "center", alignItems: "center", height: "100%" }}>
                                 <Text style={ styles.pageTitle }>{ place.name }</Text>
 
-                                <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}>
-                                    <Icon name="location-pin" size={ 17 } color="#000"/>
-                                    <Text style={[ styles.textStyle, { color: "#000" }]}> { place.address }</Text>
-                                </View>
+                                {(typeof place.address !== "undefined" && place.address !== "" && place.address !== null) && (
+                                    <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}>
+                                        <Icon name="location-pin" size={ 17 } color="#000"/>
+                                        <Text style={[ styles.textStyle, { color: "#000" }]}> { place.address }</Text>
+                                    </View>
+                                )}
 
-                                <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}>
-                                    <Icon name="clock" size={ 17 } color="#666"/>
-                                    <Text style={ styles.textStyle }> { this.workTime(place.open, place.close) }</Text>
-                                </View>
+                                {(typeof place.open !== "undefined" && place.open !== "" && place.open !== null && typeof place.close !== "undefined" && place.close !== "" && place.close !== null) && (
+                                    <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}>
+                                        <Icon name="clock" size={ 17 } color="#666"/>
+                                        <Text style={ styles.textStyle }> { this.workTime(place.open, place.close) }</Text>
+                                    </View>
+                                )}
                             </View>
                         </Card>
                         <View style={ styles.buttonContainer }>
-                            {(place.latitude !== "" && place.longitude !== "") && (
+                            {(place.latitude !== "" && place.latitude !== null && place.longitude !== "" && place.longitude !== null) && (
                                 <ButtonOutline onPress={ this.openMap } color="#0098bc">
                                     <Icon name="cursor" size={ 17 } color="#666"/>
                                     <Text style={ styles.buttonText }>  Encontre no Mapa</Text>

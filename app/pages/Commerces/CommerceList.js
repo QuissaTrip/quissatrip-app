@@ -10,7 +10,7 @@ import {
 import { Actions }                  from 'react-native-router-flux';
 import { connect }                  from 'react-redux';
 import { CardList }                 from '../../loaders';
-import { NavBar, Card, SadMessage } from '../../components/';
+import { NavBar, Card }             from '../../components/';
 import { getCommerces }             from '../../actions/commerces';
 
 const { height, width } = Dimensions.get('window');
@@ -24,12 +24,13 @@ class CommerceList extends Component {
         this.props.getCommerces(this.props.categoryID);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.props.commerces !== nextProps.commerces;
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
     }
 
     render() {
-        const { commerces, titlePage } = this.props;
+        const { titlePage, categoryID } = this.props;
+        const commerces = this.props.commerces[categoryID];
 
         return (
             <View style={{ flex: 1 }}>
@@ -40,7 +41,7 @@ class CommerceList extends Component {
                     ) : (
                         (commerces.length == 0) ? (
                             <View style={{ flex: 1, height: height-80, justifyContent: "center" }}>
-                                <SadMessage firstLine="Não existem comércios" secondLine="Cadastrados ainda" />
+                                <CardList/>
                             </View>
                         ) : (
                             <FlatList

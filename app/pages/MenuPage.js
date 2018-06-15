@@ -111,7 +111,7 @@ class MenuPage extends Component {
 
                         <View style={ styles.list }>
                             <View style={{ marginBottom: 50 }}>
-                                <TouchableOpacity onPress={ () => Actions.commerceList({ categoryID: 3, titlePage: "Serviços" }) }>
+                                <TouchableOpacity onPress={ () => Actions.commerceCategories({ categoryID: 3, titlePage: "Serviços" }) }>
                                     <View style={ styles.item }>
                                         <EvilIcons name="cart" size={ 30 } color={ itemColor }/>
                                         <Text style={ styles.text }>Serviços</Text>

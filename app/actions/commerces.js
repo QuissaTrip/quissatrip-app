@@ -19,7 +19,7 @@ export function getCommerces(id = null) {
                 url: "/commerces?category=" + id,
                 method: "GET",
             }).then((commerces) => {
-                dispatch({ type: c.FETCH_COMMERCES, commerces: commerces })
+                dispatch({ type: c.FETCH_COMMERCES, commerces: commerces, commerceID: id })
             });
         }
     }

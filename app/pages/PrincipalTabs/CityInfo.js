@@ -19,7 +19,9 @@ export default class CityInfo extends Component {
         super(props);
     }
 
-    renderImages = () => {
+    renderImages = (singleImage = true) => {
+        const { fullText } = this.props;
+        const brasao = require("../../../assets/brasao.png");
         const images = [
             require("../../../assets/city/1.jpg"),
             require("../../../assets/city/2.jpg"),
@@ -27,6 +29,14 @@ export default class CityInfo extends Component {
             require("../../../assets/city/4.jpg"),
             require("../../../assets/city/5.jpg")
         ];
+
+        if (fullText !== true) {
+            return (
+                <TouchableOpacity activeOpacity={ 0.85 } key={ "welcome_images_home" } style={ styles.brasaoContainer } onPress={ () => Actions.imageFullScreen({ require: brasao }) }>
+                    <Image style={ styles.image } source={ brasao }/>
+                </TouchableOpacity>
+            )
+        }
 
         return (
             <FlatList
@@ -105,6 +115,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         marginTop: 7,
         textAlign: "center"
+    },
+    brasaoContainer: {
+        marginTop: 30,
+        width: width-60,
+        marginHorizontal: 30,
+        height: 200,
     },
     imageContainer: {
         marginTop: 30,

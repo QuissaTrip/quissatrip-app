@@ -118,9 +118,10 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     title: {
-        fontSize: 20,
+        fontSize: 19,
         fontFamily: "OpenSans-Regular",
         color: "#000",
-        alignSelf: "center"
+        alignSelf: "center",
+        textAlign: "center"
     }
 });
