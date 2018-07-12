@@ -11,7 +11,7 @@ import {
 import { Actions }              from 'react-native-router-flux';
 import { connect }              from 'react-redux';
 import { getEvents }            from '../../actions/';
-import { NavBar, EventCard }    from '../../components/';
+import { NavBar, EventCard, Loader } from '../../components/';
 
 const { width } = Dimensions.get('window');
 
@@ -59,22 +59,26 @@ class Events extends Component {
         return (
             <View style={ styles.container }>
                 <NavBar page="Agenda" showBackIcon={ false }/>
-                <ScrollView style={ styles.container }>
-                    {(showPrevMonths) ? (
+                {(events.length < 1) ? (
+                    <Loader/>
+                ) : (
+                    <ScrollView style={ styles.container }>
+                        {(showPrevMonths) ? (
+                            <FlatList
+                                data={ pastEvents }
+                                keyExtractor={(item, index) => "agenda_" + item.date + "_" + index}
+                                renderItem={({ item, index }) => this.renderData(item, index) }
+                            />
+                        ) : (
+                            <EventCard title="Mostrar meses anteriores" onPress={ () => this.setState({ showPrevMonths: true }) }/>
+                        )}
                         <FlatList
-                            data={ pastEvents }
+                            data={ nextEvents }
                             keyExtractor={(item, index) => "agenda_" + item.date + "_" + index}
                             renderItem={({ item, index }) => this.renderData(item, index) }
                         />
-                    ) : (
-                        <EventCard title="Mostrar meses anteriores" onPress={ () => this.setState({ showPrevMonths: true }) }/>
-                    )}
-                    <FlatList
-                        data={ nextEvents }
-                        keyExtractor={(item, index) => "agenda_" + item.date + "_" + index}
-                        renderItem={({ item, index }) => this.renderData(item, index) }
-                    />
-                </ScrollView>
+                    </ScrollView>
+                )}
             </View>
         )
     }

@@ -19,6 +19,10 @@ import { getEntity }            from '../actions/';
 import { NavBar, Card, MyHTML, Loader, ButtonOutline } from '../components/';
 
 const { height, width } = Dimensions.get('window');
+const isCloseToRight = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    const paddingToRight = 20;
+    return layoutMeasurement.width + contentOffset.x >= contentSize.width - paddingToRight;
+};
 
 class Single extends Component {
     constructor(props) {
@@ -28,6 +32,7 @@ class Single extends Component {
         this.openMap = this.openMap.bind(this);
 
         this.state = {
+            showMoreImageIcon: true,
             statusBar: {
                 bg: "transparent",
                 barStyle: "light-content"
@@ -58,6 +63,7 @@ class Single extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         return (nextProps.entityID !== this.props.entityID ||
                 nextProps.place !== this.props.place ||
+                nextState.showMoreImageIcon !== this.state.showMoreImageIcon ||
                 JSON.stringify(nextState.statusBar) !== JSON.stringify(this.state.statusBar))
     }
 
@@ -95,9 +101,27 @@ class Single extends Component {
         });
     }
 
+    iconText = (icon, text, color) => {
+        return (
+            <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}>
+                <Icon name={ icon } size={ 17 } color={ color }/>
+                <Text style={[ styles.textStyle, { color: color }]}> { text }</Text>
+            </View>
+        )
+    }
+
+    button = (icon, text, onPress, border) => {
+        return (
+            <ButtonOutline onPress={() => onPress()} color={ border }>
+                <Icon name="cursor" size={ 17 } color="#666"/>
+                <Text style={ styles.buttonText }>  { text }</Text>
+            </ButtonOutline>
+        )
+    }
+
     render() {
         const { place, entityID } = this.props;
-        const { statusBar } = this.state;
+        const { statusBar, showMoreImageIcon } = this.state;
 
         if (place == null || place.id !== entityID) {
             return <Loader/>
@@ -120,33 +144,21 @@ class Single extends Component {
                                 <Text style={ styles.pageTitle }>{ place.name }</Text>
 
                                 {(typeof place.address !== "undefined" && place.address !== "" && place.address !== null) && (
-                                    <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}>
-                                        <Icon name="location-pin" size={ 17 } color="#000"/>
-                                        <Text style={[ styles.textStyle, { color: "#000" }]}> { place.address }</Text>
-                                    </View>
+                                    this.iconText("location-pin", place.address, "#000")
                                 )}
 
                                 {(typeof place.open !== "undefined" && place.open !== "" && place.open !== null && typeof place.close !== "undefined" && place.close !== "" && place.close !== null) && (
-                                    <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}>
-                                        <Icon name="clock" size={ 17 } color="#666"/>
-                                        <Text style={ styles.textStyle }> { this.workTime(place.open, place.close) }</Text>
-                                    </View>
+                                    this.iconText("clock", this.workTime(place.open, place.close), "#666")
                                 )}
                             </View>
                         </Card>
                         <View style={ styles.buttonContainer }>
                             {(place.latitude !== "" && place.latitude !== null && place.longitude !== "" && place.longitude !== null) && (
-                                <ButtonOutline onPress={ this.openMap } color="#0098bc">
-                                    <Icon name="cursor" size={ 17 } color="#666"/>
-                                    <Text style={ styles.buttonText }>  Encontre no Mapa</Text>
-                                </ButtonOutline>
+                                this.button("cursor", "Encontre no Mapa", this.openMap, "#0098bc")
                             )}
 
                             {(place.phone !== "") && (
-                                <ButtonOutline onPress={ this.openDialer } color="#0a9694">
-                                    <Icon name="phone" size={ 17 } color="#666"/>
-                                    <Text style={ styles.buttonText }>  Entre em contato</Text>
-                                </ButtonOutline>
+                                this.button("phone", "Encontre em contato", this.openDialer, "#0a9694")
                             )}
                         </View>
                         {(place.info !== "" && place.description !== "") && (
@@ -167,7 +179,24 @@ class Single extends Component {
                         )}
 
                         <View style={{ flex: 1, width: width, marginLeft: -10 }}>
-                            <ScrollView horizontal={ true } showsHorizontalScrollIndicator={ false }>
+                            {(showMoreImageIcon) && (
+                                <View style={ styles.moreIcon }>
+                                    <Icon name="arrow-right" size={ 33 } color="rgba(255,255,255,0.95)"/>
+                                </View>
+                            )}
+
+                            <ScrollView
+                                horizontal={ true }
+                                showsHorizontalScrollIndicator={ false }
+                                onScroll={({nativeEvent}) => {
+                                    if (isCloseToRight(nativeEvent)) {
+                                        this.setState({ showMoreImageIcon: false });
+                                    } else {
+                                        this.setState({ showMoreImageIcon: true });
+                                    }
+                                }}
+                                scrollEventThrottle={400}
+                            >
                                 { place.images.map((uri) => {
                                     return (
                                         <TouchableOpacity activeOpacity={ 0.85 } key={ uri } style={ styles.imageSliderContainer } onPress={ () => Actions.imageFullScreen({ url: uri }) }>
@@ -205,6 +234,14 @@ export default connect(mapStateToProps, { getEntity })(Single);
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "#FFF",
+    },
+    moreIcon: {
+        height: "100%",
+        position: "absolute",
+        bottom: 0,
+        right: 10,
+        justifyContent: "center",
+        zIndex: 999
     },
     header: {
         height: 230,

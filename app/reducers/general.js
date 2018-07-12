@@ -1,7 +1,8 @@
 import * as c from "../common/constants";
 
 let initialState = {
-events: [],
+    events: [],
+    cityInfo: null
 };
 
 export default function(state = initialState, action) {
@@ -11,6 +12,13 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 events
+            }
+        }
+        case c.FETCH_CITY_INFO: {
+            const cityInfo = action.cityInfo;
+            return {
+                ...state,
+                cityInfo
             }
         }
         default:

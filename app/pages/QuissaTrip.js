@@ -13,10 +13,15 @@ import {
 }                   from 'react-native-router-flux';
 import { connect }  from 'react-redux';
 import * as Pages   from './';
+import { getCityInfo } from '../actions/';
 
 class QuissaTrip extends Component {
     constructor(props) {
         super(props);
+    }
+
+    componentWillMount() {
+        this.props.getCityInfo();
     }
 
     render() {
@@ -58,7 +63,7 @@ class QuissaTrip extends Component {
     }
 }
 
-export default connect(null)(QuissaTrip);
+export default connect(null, { getCityInfo })(QuissaTrip);
 
 const styles = StyleSheet.create({
     container: {

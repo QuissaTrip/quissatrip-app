@@ -10,11 +10,12 @@ import {
     Dimensions
 }                           from 'react-native';
 import { Actions }          from 'react-native-router-flux';
+import { connect }          from 'react-redux';
 import { NavBar, MyHTML }   from '../../components/';
 
 const { height, width } = Dimensions.get('window');
 
-export default class CityInfo extends Component {
+class CityInfo extends Component {
     constructor(props) {
         super(props);
     }
@@ -59,23 +60,21 @@ export default class CityInfo extends Component {
 
     render() {
         const { fullText } = this.props;
-        const city = require("../../../assets/city/content.json");
+        const city = this.props.cityInfo;
+        
         return (
             <View style={{ flex: 1 }}>
                 <NavBar page="QuissaTrip" showBackIcon={(fullText == true)} />
                 <ScrollView style={{ flex: 1 }}>
                     <View style={ styles.container }>
-                        {(fullText == true) ? (
-                            <View style={{ flex: 1 }}>
-                                <Text style={ styles.welcome }>{ city.title }</Text>
+                        <View style={{ flex: 1 }}>
+                            <Text style={ styles.welcome }>{ city.title }</Text>
+                            {(fullText == true) ? (
                                 <Text style={ styles.subtitle }>Saiba mais sobre a história da cidade</Text>
-                            </View>
-                        ) : (
-                            <View style={{ flex: 1 }}>
-                                <Text style={ styles.welcome }>{ city.title }</Text>
+                            ) : (
                                 <Text style={ styles.subtitle }>{ city.subtitle }</Text>
-                            </View>
-                        )}
+                            )}
+                        </View>
 
                         <View style={{ flex: 1, width: width, marginTop: 0 }}>
                             {(fullText !== true) && (
@@ -88,12 +87,23 @@ export default class CityInfo extends Component {
                                 this.renderImages()
                             )}
                         </View>
+
+                        <Text style={ styles.text }>Aplicativo desenvolvido por <Text style={ styles.link } onPress={() => alert("opa")}>Enterprise Solutions</Text></Text>
                     </View>
                 </ScrollView>
             </View>
         )
     }
 }
+
+function mapStateToProps(state, props) {
+    return {
+        cityInfo: state.general.cityInfo
+    }
+}
+
+export default connect(mapStateToProps)(CityInfo);
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -116,6 +126,16 @@ const styles = StyleSheet.create({
         marginTop: 7,
         textAlign: "center"
     },
+    text: {
+        fontFamily: "OpenSans-Regular",
+        fontSize: 15,
+        color: "rgba(0,0,0,0.6)",
+        marginTop: 35,
+        textAlign: "left",
+    },
+        link: {
+            color: "blue"
+        },
     brasaoContainer: {
         marginTop: 30,
         width: width-60,

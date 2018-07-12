@@ -14,6 +14,17 @@ export function getEntity(id = null) {
     }
 }
 
+export function getCityInfo() {
+    return (dispatch) => {
+        request({
+            url: "/files/city-info.json",
+            method: "GET",
+        }).then((response) => {
+            dispatch({ type: c.FETCH_CITY_INFO, cityInfo: response })
+        });
+    }
+}
+
 export function getCategories(id = null) {
     let url = "/categories";
     if (id !== null) {

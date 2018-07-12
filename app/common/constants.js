@@ -1,8 +1,9 @@
 // GENERAL
-export const BASE_URL = 'http://lucascraveiropaes.com/app';
+export const BASE_URL = 'http://quissatrip.pe.hu/app';
 export const CATEGORIES = 'CATEGORIES';
 export const CATEGORY_LIST = 'CATEGORY_LIST';
 export const FETCH_EVENTS = 'FETCH_EVENTS';
+export const FETCH_CITY_INFO = 'FETCH_CITY_INFO';
 
 // USER
 export const FETCH_USER = 'FETCH_USER';
